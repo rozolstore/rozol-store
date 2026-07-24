@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ROZOL",
   description: "Luxury Within Reach",
+  verification: {
+    google: "cDyVer7KAw8I15ecvUqjPN_8c8aFQtehTdNQktRrgK4",
+  },
 };
 
 export default function RootLayout({
