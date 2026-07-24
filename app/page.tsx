@@ -45,7 +45,9 @@ const perfumes: Perfume[] = [
 export default function Home() {
   const [cart, setCart] = useState<Perfume[]>([]);
   const [openCart, setOpenCart] = useState(false);
-
+const [customerName, setCustomerName] = useState("");
+const [customerPhone, setCustomerPhone] = useState("");
+const [customerAddress, setCustomerAddress] = useState("");
   const addToCart = (perfume: Perfume) => {
     setCart([...cart, perfume]);
   };
@@ -168,11 +170,10 @@ export default function Home() {
 
           {perfumes.map((item) => (
 
-            <div
-              key={item.id}
-              className="group bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 hover:border-yellow-500 duration-300 shadow-2xl"
-            >
-
+<div
+  key={item.id}
+  className="relative group bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 hover:border-yellow-500 duration-300 shadow-2xl"
+>
               {/* Discount */}
 
               <div className="absolute bg-red-600 text-white px-4 py-1 rounded-br-2xl font-bold z-10">
@@ -501,110 +502,155 @@ export default function Home() {
       >
         💬
       </a>
-            {/* Cart */}
+{/* Cart */}
 
-      {openCart && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+{openCart && (
+  <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
 
-          <div className="bg-white text-black w-[92%] max-w-lg rounded-3xl p-6 shadow-2xl">
+    <div className="bg-white text-black w-[92%] max-w-lg rounded-3xl p-6 shadow-2xl">
 
-            <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6">
 
-              <h2 className="text-3xl font-black">
-                🛒 سلة المشتريات
-              </h2>
+        <h2 className="text-3xl font-black">
+          🛒 تأكيد الطلب
+        </h2>
 
-              <button
-                onClick={() => setOpenCart(false)}
-                className="text-3xl hover:text-red-500 duration-300"
-              >
-                ✕
-              </button>
+        <button
+          onClick={() => setOpenCart(false)}
+          className="text-3xl hover:text-red-500 duration-300"
+        >
+          ✕
+        </button>
 
-            </div>
+      </div>
 
-            {cart.length === 0 ? (
 
-              <div className="text-center py-10">
+      {cart.length === 0 ? (
 
-                <p className="text-6xl">🛍️</p>
+        <div className="text-center py-10">
 
-                <p className="mt-5 text-xl">
-                  السلة فارغة
-                </p>
+          <p className="text-6xl">🛍️</p>
 
-              </div>
+          <p className="mt-5 text-xl">
+            السلة فارغة
+          </p>
 
-            ) : (
+        </div>
 
-              <>
+      ) : (
 
-                <div className="space-y-4 max-h-80 overflow-y-auto">
+        <>
 
-                  {cart.map((item, index) => (
+          <div className="space-y-3 mb-6">
 
-                    <div
-                      key={index}
-                      className="flex justify-between items-center border-b pb-4"
-                    >
+            <input
+              type="text"
+              placeholder="الاسم"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+              className="w-full border p-3 rounded-xl"
+            />
 
-                      <div>
+            <input
+              type="text"
+              placeholder="رقم الهاتف"
+              value={customerPhone}
+              onChange={(e) => setCustomerPhone(e.target.value)}
+              className="w-full border p-3 rounded-xl"
+            />
 
-                        <h3 className="font-bold text-lg">
-                          {item.name}
-                        </h3>
-
-                        <p className="text-yellow-600 font-bold">
-                          {item.newPrice} EGP
-                        </p>
-
-                      </div>
-
-                      <button
-                        onClick={() => removeFromCart(index)}
-                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl duration-300"
-                      >
-                        حذف
-                      </button>
-
-                    </div>
-
-                  ))}
-
-                </div>
-
-                <div className="mt-8 border-t pt-5 flex justify-between text-2xl font-black">
-
-                  <span>
-                    الإجمالي
-                  </span>
-
-                  <span className="text-yellow-600">
-                    {total} EGP
-                  </span>
-
-                </div>
-
-                <a
-                  href={`https://wa.me/201098941704?text=${encodeURIComponent(
-                    whatsappMessage
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block mt-7 bg-green-500 hover:bg-green-600 text-white text-center py-4 rounded-2xl font-bold text-lg duration-300"
-                >
-                  إرسال الطلب عبر واتساب
-                </a>
-
-              </>
-
-            )}
+            <textarea
+              placeholder="العنوان"
+              value={customerAddress}
+              onChange={(e) => setCustomerAddress(e.target.value)}
+              className="w-full border p-3 rounded-xl"
+            />
 
           </div>
 
-        </div>
+
+          <div className="space-y-4 max-h-60 overflow-y-auto">
+
+            {cart.map((item, index) => (
+
+              <div
+                key={index}
+                className="flex justify-between items-center border-b pb-4"
+              >
+
+                <div>
+
+                  <h3 className="font-bold text-lg">
+                    {item.name}
+                  </h3>
+
+                  <p className="text-yellow-600 font-bold">
+                    {item.newPrice} EGP
+                  </p>
+
+                </div>
+
+                <button
+                  onClick={() => removeFromCart(index)}
+                  className="bg-red-500 text-white px-4 py-2 rounded-xl"
+                >
+                  حذف
+                </button>
+
+              </div>
+
+            ))}
+
+          </div>
+
+
+          <div className="mt-8 border-t pt-5 flex justify-between text-2xl font-black">
+
+            <span>
+              الإجمالي
+            </span>
+
+            <span className="text-yellow-600">
+              {total} EGP
+            </span>
+
+          </div>
+
+
+<button
+  disabled={!customerName || !customerPhone || !customerAddress}
+  onClick={() => {
+    if (!customerName || !customerPhone || !customerAddress) return;
+
+    window.open(
+      `https://wa.me/201098941704?text=${encodeURIComponent(
+`طلب جديد من ROZOL
+
+الاسم: ${customerName}
+الهاتف: ${customerPhone}
+العنوان: ${customerAddress}
+
+المنتجات:
+${cart.map((item) => `• ${item.name} - ${item.newPrice} EGP`).join("\n")}
+
+الإجمالي: ${total} EGP`
+      )}`,
+      "_blank"
+    );
+  }}
+  className="block w-full mt-7 bg-green-500 hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white text-center py-4 rounded-2xl font-bold text-lg duration-300"
+>
+  إرسال الطلب عبر واتساب
+</button>
+        </>
+
       )}
 
-    </main>
-  );
+    </div>
+
+  </div>
+)}
+
+</main>
+);
 }
