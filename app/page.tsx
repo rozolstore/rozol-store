@@ -9,46 +9,79 @@ type Perfume = {
   oldPrice: number;
   newPrice: number;
   image: string;
+  description: string;
+  size: string;
+  longevity: string;
+  projection: string;
 };
 
-const perfumes: Perfume[] = [
+const perfumes: Perfume[] = [ 
   {
     id: 1,
     name: "Bleu de Chanel",
     oldPrice: 1200,
     newPrice: 800,
     image: "/image/bleu.jpg",
+    description: "عطر رجالي فاخر برائحة منعشة وخشبية يناسب جميع المناسبات.",
+    size: "100ml",
+    longevity: "8 - 10 ساعات",
+    projection: "قوي",
   },
+
   {
     id: 2,
     name: "Versace Eros",
     oldPrice: 1200,
     newPrice: 800,
     image: "/image/eros.jpg",
+    description: "عطر رجالي جذاب بطابع شرقي ومنعش يمنحك حضورًا مميزًا.",
+    size: "100ml",
+    longevity: "8 ساعات",
+    projection: "قوي",
   },
+
   {
     id: 3,
     name: "Dior Sauvage",
-    oldPrice: 1200,
-    newPrice: 800,
+    oldPrice: 1300,
+    newPrice: 900,
     image: "/image/sauvage.jpg",
+    description: "عطر رجالي فاخر بثبات وفوحان ممتاز يناسب جميع الأوقات.",
+    size: "100ml",
+    longevity: "8 - 10 ساعات",
+    projection: "قوي جدًا",
   },
+
   {
     id: 4,
     name: "YSL Y",
     oldPrice: 1200,
     newPrice: 800,
     image: "/image/ysl.jpg",
+    description: "عطر شبابي أنيق برائحة منعشة وخشبية.",
+    size: "100ml",
+    longevity: "7 - 9 ساعات",
+    projection: "متوسط إلى قوي",
   },
 ];
+const shippingPrices = {
+  "القاهرة": 80,
+  "الجيزة": 80,
+  "الإسكندرية": 100,
+  "الدلتا": 100,
+  "الصعيد": 100,
+};
 
+const confirmPayment = 100;
 export default function Home() {
   const [cart, setCart] = useState<Perfume[]>([]);
   const [openCart, setOpenCart] = useState(false);
-const [customerName, setCustomerName] = useState("");
+const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
+  const [customerName, setCustomerName] = useState("");
 const [customerPhone, setCustomerPhone] = useState("");
 const [customerAddress, setCustomerAddress] = useState("");
-  const addToCart = (perfume: Perfume) => {
+const [customerGovernorate, setCustomerGovernorate] = useState("");
+const addToCart = (perfume: Perfume) => {
     setCart([...cart, perfume]);
   };
 
@@ -57,7 +90,13 @@ const [customerAddress, setCustomerAddress] = useState("");
   };
 
   const total = cart.length * 800;
+const shipping =
+  shippingPrices[
+    customerGovernorate as keyof typeof shippingPrices
+  ] || 0;
 
+const finalTotal = total + shipping;
+const remaining = finalTotal - confirmPayment;
   const whatsappMessage =
     "السلام عليكم، أريد طلب:\n\n" +
     cart
@@ -180,14 +219,18 @@ const [customerAddress, setCustomerAddress] = useState("");
                 خصم 33%
               </div>
 
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={500}
-                height={500}
-                className="w-full h-80 object-cover group-hover:scale-110 duration-500"
-              />
-
+<div
+  onClick={() => setSelectedPerfume(item)}
+  className="cursor-pointer"
+>
+  <Image
+    src={item.image}
+    alt={item.name}
+    width={500}
+    height={500}
+    className="w-full h-80 object-cover group-hover:scale-110 duration-500"
+  />
+</div>
               <div className="p-6">
 
                 <h3 className="text-2xl font-bold">
@@ -428,7 +471,18 @@ const [customerAddress, setCustomerAddress] = useState("");
             placeholder="رسالتك"
             className="w-full p-4 rounded-xl bg-black border border-zinc-700 outline-none focus:border-yellow-500"
           />
-
+<select
+  value={customerGovernorate}
+  onChange={(e) => setCustomerGovernorate(e.target.value)}
+  className="w-full border p-3 rounded-xl mt-3"
+>
+  <option value="">اختر المحافظة</option>
+  <option value="القاهرة">القاهرة</option>
+  <option value="الجيزة">الجيزة</option>
+  <option value="الإسكندرية">الإسكندرية</option>
+  <option value="الدلتا">الدلتا</option>
+  <option value="الصعيد">الصعيد</option>
+</select>
           <button
             className="w-full mt-6 bg-yellow-500 hover:bg-yellow-400 text-black py-4 rounded-xl font-bold duration-300"
           >
@@ -507,8 +561,7 @@ const [customerAddress, setCustomerAddress] = useState("");
 {openCart && (
   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
 
-    <div className="bg-white text-black w-[92%] max-w-lg rounded-3xl p-6 shadow-2xl">
-
+<div className="bg-white text-black w-[92%] max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl p-6 shadow-2xl">
       <div className="flex justify-between items-center mb-6">
 
         <h2 className="text-3xl font-black">
@@ -565,7 +618,47 @@ const [customerAddress, setCustomerAddress] = useState("");
               onChange={(e) => setCustomerAddress(e.target.value)}
               className="w-full border p-3 rounded-xl"
             />
+<textarea
+  placeholder="العنوان"
+  value={customerAddress}
+  onChange={(e) => setCustomerAddress(e.target.value)}
+  className="w-full border p-3 rounded-xl"
+/>
 
+<select
+  value={customerGovernorate}
+  onChange={(e) => setCustomerGovernorate(e.target.value)}
+  className="w-full border p-3 rounded-xl mt-3"
+>
+  <option value="">اختر المحافظة</option>
+  <option value="القاهرة">القاهرة</option>
+  <option value="الجيزة">الجيزة</option>
+  <option value="الإسكندرية">الإسكندرية</option>
+  <option value="القليوبية">القليوبية</option>
+  <option value="الشرقية">الشرقية</option>
+  <option value="الغربية">الغربية</option>
+  <option value="الدقهلية">الدقهلية</option>
+  <option value="المنوفية">المنوفية</option>
+  <option value="البحيرة">البحيرة</option>
+  <option value="كفر الشيخ">كفر الشيخ</option>
+  <option value="دمياط">دمياط</option>
+  <option value="بورسعيد">بورسعيد</option>
+  <option value="الإسماعيلية">الإسماعيلية</option>
+  <option value="السويس">السويس</option>
+  <option value="شمال سيناء">شمال سيناء</option>
+  <option value="جنوب سيناء">جنوب سيناء</option>
+  <option value="بني سويف">بني سويف</option>
+  <option value="الفيوم">الفيوم</option>
+  <option value="المنيا">المنيا</option>
+  <option value="أسيوط">أسيوط</option>
+  <option value="سوهاج">سوهاج</option>
+  <option value="قنا">قنا</option>
+  <option value="الأقصر">الأقصر</option>
+  <option value="أسوان">أسوان</option>
+  <option value="مطروح">مطروح</option>
+  <option value="الوادي الجديد">الوادي الجديد</option>
+
+</select>
           </div>
 
 
@@ -606,20 +699,44 @@ const [customerAddress, setCustomerAddress] = useState("");
 
           <div className="mt-8 border-t pt-5 flex justify-between text-2xl font-black">
 
-            <span>
-              الإجمالي
-            </span>
+<div className="mt-8 border-t pt-5 space-y-3 text-lg">
 
-            <span className="text-yellow-600">
-              {total} EGP
-            </span>
+  <div className="flex justify-between">
+    <span>ثمن المنتجات</span>
+    <span>{total} EGP</span>
+  </div>
 
+  <div className="flex justify-between">
+    <span>🚚 الشحن</span>
+    <span>{shipping} EGP</span>
+  </div>
+
+  <div className="flex justify-between text-green-600 font-bold">
+    <span>✅ مبلغ تأكيد الطلب</span>
+    <span>{confirmPayment} EGP</span>
+  </div>
+
+  <div className="flex justify-between text-yellow-600 font-bold">
+    <span>💵 المتبقي عند الاستلام</span>
+    <span>{remaining} EGP</span>
+  </div>
+
+  <div className="flex justify-between text-2xl font-black border-t pt-3">
+    <span>الإجمالي</span>
+    <span>{finalTotal} EGP</span>
+  </div>
+
+</div>
           </div>
 
 
 <button
-  disabled={!customerName || !customerPhone || !customerAddress}
-  onClick={() => {
+disabled={
+  !customerName ||
+  !customerPhone ||
+  !customerAddress ||
+  !customerGovernorate
+}  onClick={() => {
     if (!customerName || !customerPhone || !customerAddress) return;
 
     window.open(
@@ -650,7 +767,97 @@ ${cart.map((item) => `• ${item.name} - ${item.newPrice} EGP`).join("\n")}
 
   </div>
 )}
+{selectedPerfume && (
+  <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] px-4">
 
+    <div className="bg-zinc-900 text-white rounded-3xl max-w-2xl w-full overflow-hidden border border-yellow-500 shadow-2xl">
+
+      <div className="relative">
+
+        <Image
+          src={selectedPerfume.image}
+          alt={selectedPerfume.name}
+          width={800}
+          height={800}
+          className="w-full h-96 object-cover"
+        />
+
+        <button
+          onClick={() => setSelectedPerfume(null)}
+          className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 w-10 h-10 rounded-full text-white font-bold"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div className="p-8">
+
+        <h2 className="text-4xl font-black text-yellow-500">
+          {selectedPerfume.name}
+        </h2>
+
+        <p className="mt-5 text-gray-300 leading-8">
+          {selectedPerfume.description}
+        </p>
+
+        <div className="grid grid-cols-3 gap-4 mt-8">
+
+          <div className="bg-black rounded-2xl p-4 text-center">
+            <p className="text-gray-400">الحجم</p>
+            <p className="font-bold mt-2">
+              {selectedPerfume.size}
+            </p>
+          </div>
+
+          <div className="bg-black rounded-2xl p-4 text-center">
+            <p className="text-gray-400">الثبات</p>
+            <p className="font-bold mt-2">
+              {selectedPerfume.longevity}
+            </p>
+          </div>
+
+          <div className="bg-black rounded-2xl p-4 text-center">
+            <p className="text-gray-400">الفوحان</p>
+            <p className="font-bold mt-2">
+              {selectedPerfume.projection}
+            </p>
+          </div>
+
+        </div>
+
+        <div className="flex items-center justify-between mt-8">
+
+          <div>
+
+            <span className="line-through text-gray-500 mr-3">
+              {selectedPerfume.oldPrice} EGP
+            </span>
+
+            <span className="text-4xl font-black text-yellow-500">
+              {selectedPerfume.newPrice} EGP
+            </span>
+
+          </div>
+
+          <button
+            onClick={() => {
+              addToCart(selectedPerfume);
+              setSelectedPerfume(null);
+            }}
+            className="bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-4 rounded-2xl font-bold"
+          >
+            أضف للسلة 🛒
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
 </main>
 );
 }
