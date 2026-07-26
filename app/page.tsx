@@ -63,6 +63,78 @@ const perfumes: Perfume[] = [
     longevity: "7 - 9 ساعات",
     projection: "متوسط إلى قوي",
   },
+{
+  id: 5,
+  name: "ايربابورا",
+  oldPrice: 1200,
+  newPrice: 900,
+  image: "/image/erba.jpg",
+  description: "عطر فاخر برائحة منعشة وفخمة.",
+  size: "100ml",
+  longevity: "8 - 10 ساعات",
+  projection: "قوي",
+},
+
+{
+  id: 6,
+  name: "بيانكو لاتيه",
+  oldPrice: 1200,
+  newPrice: 850,
+  image: "/image/bianco.jpg",
+  description: "عطر ناعم وأنيق برائحة مميزة.",
+  size: "100ml",
+  longevity: "8 ساعات",
+  projection: "متوسط إلى قوي",
+},
+
+{
+  id: 7,
+  name: "يارا",
+  oldPrice: 1400,
+  newPrice: 1000,
+  image: "/image/yara.jpg",
+  description: "عطر حريمي جذاب برائحة حلوة وفاخرة.",
+  size: "100ml",
+  longevity: "8 - 10 ساعات",
+  projection: "قوي",
+},
+
+{
+  id: 8,
+  name: "دوف",
+  oldPrice: 1400,
+  newPrice: 1000,
+  image: "/image/dove.jpg",
+  description: "عطر راقي بإحساس نظيف ورائحة أنيقة.",
+  size: "100ml",
+  longevity: "7 - 9 ساعات",
+  projection: "متوسط",
+},
+
+{
+  id: 9,
+  name: "خمرة",
+  oldPrice: 1200,
+  newPrice: 800,
+  image: "/image/khamrah.jpg",
+  description: "عطر شرقي فاخر برائحة دافئة وجذابة.",
+  size: "100ml",
+  longevity: "10 ساعات",
+  projection: "قوي",
+},
+
+{
+  id: 10,
+  name: "Si",
+  oldPrice: 1400,
+  newPrice: 1000,
+  image: "/image/si.jpg",
+  description: "عطر حريمي راقي برائحة أنيقة.",
+  size: "100ml",
+  longevity: "8 ساعات",
+  projection: "قوي",
+},
+
 ];
 const shippingPrices = {
   "القاهرة": 80,
@@ -164,9 +236,9 @@ const remaining = finalTotal - confirmPayment;
           </h1>
 
           <p className="text-gray-300 mt-8 text-xl leading-9">
-            أفخم العطور الرجالي والحريمي الأصلية
+           عطور أصلية بثبات فاخر 🔥
             <br />
-            بأسعار لا تقبل المنافسة
+            اطلب الأن والدفع عند الأستلام
           </p>
 
           <div className="mt-10 flex justify-center gap-5">
@@ -175,7 +247,7 @@ const remaining = finalTotal - confirmPayment;
               href="#products"
               className="bg-yellow-500 hover:bg-yellow-400 hover:scale-105 duration-300 text-black px-10 py-4 rounded-full font-bold shadow-xl"
             >
-              تسوق الآن
+             اطلب عطرك الآن 🔥
             </a>
 
             <a
