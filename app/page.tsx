@@ -139,11 +139,33 @@ const perfumes: Perfume[] = [
 const shippingPrices = {
   "القاهرة": 80,
   "الجيزة": 80,
-  "الإسكندرية": 100,
-  "الدلتا": 100,
-  "الصعيد": 100,
-};
 
+  "الإسكندرية": 100,
+  "القليوبية": 100,
+  "الشرقية": 100,
+  "الغربية": 100,
+  "الدقهلية": 100,
+  "المنوفية": 100,
+  "البحيرة": 100,
+  "كفر الشيخ": 100,
+  "دمياط": 100,
+  "بورسعيد": 100,
+  "الإسماعيلية": 100,
+  "السويس": 100,
+
+  "شمال سيناء": 120,
+  "جنوب سيناء": 120,
+  "بني سويف": 120,
+  "الفيوم": 120,
+  "المنيا": 120,
+  "أسيوط": 120,
+  "سوهاج": 120,
+  "قنا": 120,
+  "الأقصر": 120,
+  "أسوان": 120,
+  "مطروح": 120,
+  "الوادي الجديد": 120,
+};
 const confirmPayment = 100;
 export default function Home() {
   const [cart, setCart] = useState<Perfume[]>([]);
@@ -153,6 +175,7 @@ const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
 const [customerPhone, setCustomerPhone] = useState("");
 const [customerAddress, setCustomerAddress] = useState("");
 const [customerGovernorate, setCustomerGovernorate] = useState("");
+const [customerNotes, setCustomerNotes] = useState("");
 const addToCart = (perfume: Perfume) => {
     setCart([...cart, perfume]);
   };
@@ -691,13 +714,14 @@ const remaining = finalTotal - confirmPayment;
               className="w-full border p-3 rounded-xl"
             />
 <textarea
-  placeholder="العنوان"
-  value={customerAddress}
-  onChange={(e) => setCustomerAddress(e.target.value)}
+  placeholder="ملاحظات الطلب (اختياري)"
+  value={customerNotes}
+  onChange={(e) => setCustomerNotes(e.target.value)}
   className="w-full border p-3 rounded-xl"
+  rows={3}
 />
-
 <select
+
   value={customerGovernorate}
   onChange={(e) => setCustomerGovernorate(e.target.value)}
   className="w-full border p-3 rounded-xl mt-3"
@@ -803,26 +827,79 @@ const remaining = finalTotal - confirmPayment;
 
 
 <button
-disabled={
-  !customerName ||
-  !customerPhone ||
-  !customerAddress ||
-  !customerGovernorate
-}  onClick={() => {
-    if (!customerName || !customerPhone || !customerAddress) return;
+  disabled={
+    !customerName ||
+    !customerPhone ||
+    !customerAddress ||
+    !customerGovernorate
+  }
+  onClick={() => {
+    if (
+      !customerName ||
+      !customerPhone ||
+      !customerAddress ||
+      !customerGovernorate
+    )
+      return;
 
     window.open(
       `https://wa.me/201098941704?text=${encodeURIComponent(
-`طلب جديد من ROZOL
+`🛍️ طلب جديد من ROZOL
 
-الاسم: ${customerName}
-الهاتف: ${customerPhone}
-العنوان: ${customerAddress}
+👤 الاسم: ${customerName}
+📞 الهاتف: ${customerPhone}
+🏠 العنوان: ${customerAddress}
+📍 المحافظة: ${customerGovernorate}
 
-المنتجات:
-${cart.map((item) => `• ${item.name} - ${item.newPrice} EGP`).join("\n")}
+📝 الملاحظات:
+${customerNotes || "لا توجد ملاحظات"}
 
-الإجمالي: ${total} EGP`
+---------------------------------------
+
+🛒 المنتجات:
+${Object.values(
+  cart.reduce((acc, item) => {
+    if (!acc[item.id]) {
+      acc[item.id] = {
+        name: item.name,
+        price: item.newPrice,
+        quantity: 1,
+      };
+    } else {
+      acc[item.id].quantity++;
+    }
+    return acc;
+  }, {} as Record<number, { name: string; price: number; quantity: number }>)
+)
+  .map(
+    (item) =>
+      `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} EGP`
+  )
+  .join("\n")}
+🚚 سعر الشحن: ${shipping} EGP
+
+💰 إجمالي الطلب: ${finalTotal} EGP
+
+💳 مبلغ تأكيد الطلب: ${confirmPayment} EGP
+
+💵 المتبقي عند الاستلام: ${remaining} EGP
+
+━━━━━━━━━━━━━━━━━━━━
+
+💰 بيانات التحويل
+
+📱 فودافون كاش:
+01098941704
+
+━━━━━━━━━━━━━━━━━━━━
+
+🙏 شكرًا لاختيارك ROZOL ❤️
+
+✅ لتأكيد الطلب، يرجى تحويل مبلغ تأكيد الطلب على رقم فودافون كاش الموضح بالأعلى، ثم إرسال صورة أو لقطة شاشة لإثبات التحويل عبر واتساب.
+
+🔒 جميع بياناتك محفوظة بسرية تامة.
+
+📦 بعد مراجعة التحويل سيتم تأكيد الطلب وتجهيزه للشحن في أقرب وقت.`
       )}`,
       "_blank"
     );
@@ -830,8 +907,7 @@ ${cart.map((item) => `• ${item.name} - ${item.newPrice} EGP`).join("\n")}
   className="block w-full mt-7 bg-green-500 hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white text-center py-4 rounded-2xl font-bold text-lg duration-300"
 >
   إرسال الطلب عبر واتساب
-</button>
-        </>
+</button>    </>
 
       )}
 
@@ -842,8 +918,7 @@ ${cart.map((item) => `• ${item.name} - ${item.newPrice} EGP`).join("\n")}
 {selectedPerfume && (
   <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] px-4">
 
-    <div className="bg-zinc-900 text-white rounded-3xl max-w-2xl w-full overflow-hidden border border-yellow-500 shadow-2xl">
-
+<div className="bg-zinc-900 text-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-yellow-500 shadow-2xl">
       <div className="relative">
 
         <Image
