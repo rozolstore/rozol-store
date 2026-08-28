@@ -19,8 +19,8 @@ const perfumes: Perfume[] = [
   {
     id: 1,
     name: "Bleu de Chanel",
-    oldPrice: 1200,
-    newPrice: 800,
+    oldPrice: 1599,
+    newPrice: 799,
     image: "/image/bleu.jpg",
     description: "عطر رجالي فاخر برائحة منعشة وخشبية يناسب جميع المناسبات.",
     size: "100ml",
@@ -31,8 +31,8 @@ const perfumes: Perfume[] = [
   {
     id: 2,
     name: "Versace Eros",
-    oldPrice: 1200,
-    newPrice: 800,
+    oldPrice: 1599,
+    newPrice: 799,
     image: "/image/eros.jpg",
     description: "عطر رجالي جذاب بطابع شرقي ومنعش يمنحك حضورًا مميزًا.",
     size: "100ml",
@@ -43,8 +43,8 @@ const perfumes: Perfume[] = [
   {
     id: 3,
     name: "Dior Sauvage",
-    oldPrice: 1300,
-    newPrice: 900,
+    oldPrice: 1499,
+    newPrice: 749,
     image: "/image/sauvage.jpg",
     description: "عطر رجالي فاخر بثبات وفوحان ممتاز يناسب جميع الأوقات.",
     size: "100ml",
@@ -55,8 +55,8 @@ const perfumes: Perfume[] = [
   {
     id: 4,
     name: "YSL Y",
-    oldPrice: 1200,
-    newPrice: 800,
+    oldPrice: 1599,
+    newPrice: 799,
     image: "/image/ysl.jpg",
     description: "عطر شبابي أنيق برائحة منعشة وخشبية.",
     size: "100ml",
@@ -67,8 +67,8 @@ const perfumes: Perfume[] = [
   {
     id: 5,
     name: "ايربابورا",
-    oldPrice: 1200,
-    newPrice: 900,
+    oldPrice: 1999,
+    newPrice: 999,
     image: "/image/erba.jpg",
     description: "عطر فاخر برائحة منعشة وفخمة.",
     size: "100ml",
@@ -79,8 +79,8 @@ const perfumes: Perfume[] = [
   {
     id: 6,
     name: "بيانكو لاتيه",
-    oldPrice: 1200,
-    newPrice: 850,
+    oldPrice: 1599,
+    newPrice: 799,
     image: "/image/bianco.jpg",
     description: "عطر ناعم وأنيق برائحة مميزة.",
     size: "100ml",
@@ -91,8 +91,8 @@ const perfumes: Perfume[] = [
   {
     id: 7,
     name: "يارا",
-    oldPrice: 1400,
-    newPrice: 1000,
+    oldPrice: 1799,
+    newPrice: 999,
     image: "/image/yara.jpg",
     description: "عطر حريمي جذاب برائحة حلوة وفاخرة.",
     size: "100ml",
@@ -103,8 +103,8 @@ const perfumes: Perfume[] = [
   {
     id: 8,
     name: "دوف",
-    oldPrice: 1400,
-    newPrice: 1000,
+    oldPrice: 1499,
+    newPrice: 799,
     image: "/image/dove.jpg",
     description: "عطر راقي بإحساس نظيف ورائحة أنيقة.",
     size: "100ml",
@@ -115,8 +115,8 @@ const perfumes: Perfume[] = [
   {
     id: 9,
     name: "خمرة",
-    oldPrice: 1200,
-    newPrice: 800,
+    oldPrice: 1799,
+    newPrice: 899,
     image: "/image/khamrah.jpg",
     description: "عطر شرقي فاخر برائحة دافئة وجذابة.",
     size: "100ml",
@@ -127,8 +127,8 @@ const perfumes: Perfume[] = [
   {
     id: 10,
     name: "Si",
-    oldPrice: 1400,
-    newPrice: 1000,
+    oldPrice: 1499,
+    newPrice: 799,
     image: "/image/si.jpg",
     description: "عطر حريمي راقي برائحة أنيقة.",
     size: "100ml",
@@ -141,8 +141,8 @@ const perfumes: Perfume[] = [
   {
     id: 11,
     name: "Khamrah Waha",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1999,
+    newPrice: 999,
     image: "/image/Khamrah Waha.jpg",
     description: "عطر فاخر برائحة مميزة وجذابة.",
     size: "100ml",
@@ -153,8 +153,8 @@ const perfumes: Perfume[] = [
   {
     id: 12,
     name: "Emporio Armani Stronger With You Black",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1999,
+    newPrice: 999,
     image: "/image/Emporio Armani Stronger With You Black.jpg",
     description: "عطر رجالي جذاب برائحة قوية وعصرية.",
     size: "100ml",
@@ -165,8 +165,8 @@ const perfumes: Perfume[] = [
   {
     id: 13,
     name: "Emporio Armani Stronger With You Green",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1999,
+    newPrice: 999,
     image: "/image/Emporio Armani Stronger With You Green.jpg",
     description: "عطر أنيق ومنعش برائحة مميزة.",
     size: "100ml",
@@ -177,8 +177,8 @@ const perfumes: Perfume[] = [
   {
     id: 14,
     name: "Afnan Silver & Bronze",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1999,
+    newPrice: 1199,
     image: "/image/Afnan Silver & Bronze.jpg",
     description: "عطر فاخر بلمسة أنيقة وثبات مميز.",
     size: "100ml",
@@ -189,8 +189,8 @@ const perfumes: Perfume[] = [
   {
     id: 15,
     name: "Lattafa Eclaire",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1599,
+    newPrice: 799,
     image: "/image/Lattafa Eclaire.jpg",
     description: "عطر حلو وناعم برائحة جذابة.",
     size: "100ml",
@@ -201,8 +201,8 @@ const perfumes: Perfume[] = [
   {
     id: 16,
     name: "Ghissa",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1599,
+    newPrice: 799,
     image: "/image/Ghissa.jpg",
     description: "عطر أنيق برائحة مميزة.",
     size: "100ml",
@@ -213,8 +213,8 @@ const perfumes: Perfume[] = [
   {
     id: 17,
     name: "ghissa La Louna",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1799,
+    newPrice: 899,
     image: "/image/ghissa La Louna.jpg",
     description: "عطر جذاب برائحة مميزة.",
     size: "100ml",
@@ -225,8 +225,8 @@ const perfumes: Perfume[] = [
   {
     id: 18,
     name: "Laverne Sense",
-    oldPrice: 2850,
-    newPrice: 1000,
+    oldPrice: 1699,
+    newPrice: 899,
     image: "/image/Laverne Sense.jpg",
     description: "عطر راقٍ برائحة مميزة وثبات جيد.",
     size: "100ml",
@@ -235,8 +235,8 @@ const perfumes: Perfume[] = [
   },
 ];
 const shippingPrices = {
-  "القاهرة": 80,
-  "الجيزة": 80,
+  "القاهرة": 100,
+  "الجيزة": 100,
 
   "الإسكندرية": 100,
   "القليوبية": 100,
@@ -409,7 +409,7 @@ const remaining = finalTotal - confirmPayment;
               {/* Discount */}
 
               <div className="absolute bg-red-600 text-white px-4 py-1 rounded-br-2xl font-bold z-10">
-                خصم 33%
+                خصم 55%
               </div>
 
 <div
@@ -443,7 +443,7 @@ const remaining = finalTotal - confirmPayment;
                 </div>
 
                 <p className="text-green-400 mt-2">
-                  وفر 400 جنيه
+                  وفر اكثر من 500 جنيه
                 </p>
 
                 <div className="flex gap-3 mt-6">
@@ -609,13 +609,13 @@ const remaining = finalTotal - confirmPayment;
           <p className="text-2xl mt-6">
             بدلاً من
             <span className="line-through mx-2">
-              1200 EGP
+              1999 EGP
             </span>
 
             فقط
 
             <span className="font-black text-4xl mx-2">
-              800 EGP
+              999 EGP
             </span>
 
           </p>
