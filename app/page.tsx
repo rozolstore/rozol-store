@@ -233,6 +233,28 @@ const perfumes: Perfume[] = [
     longevity: "8 - 10 ساعات",
     projection: "قوي",
   },
+  {
+  id: 19,
+  name: "Oud Madawi",
+  oldPrice: 1599,
+  newPrice: 899,
+  image: "/image/Oud Madawi.jpg",
+  description: "عطر عود فاخر بلمسة شرقية جذابة",
+  size: "100ml",
+  longevity: "ثبات طويل",
+  projection: "فوحان قوي",
+},
+{
+  id: 20,
+  name: "Amerat Al Arab",
+  oldPrice: 1200,
+  newPrice: 800,
+  image: "/image/Amerat Al Arab.jpg",
+  description: "عطر عربي أنيق بلمسة فاخرة وجذابة",
+  size: "100ml",
+  longevity: "ثبات طويل",
+  projection: "فوحان قوي",
+},
 ];
 const shippingPrices = {
   "القاهرة": 100,
