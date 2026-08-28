@@ -44,7 +44,7 @@ const perfumes: Perfume[] = [
     id: 3,
     name: "Dior Sauvage",
     oldPrice: 1499,
-    newPrice: 749,
+    newPrice: 799,
     image: "/image/sauvage.jpg",
     description: "عطر رجالي فاخر بثبات وفوحان ممتاز يناسب جميع الأوقات.",
     size: "100ml",
