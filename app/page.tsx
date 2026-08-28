@@ -255,6 +255,17 @@ const perfumes: Perfume[] = [
   longevity: "ثبات طويل",
   projection: "فوحان قوي",
 },
+{
+  id: 21,
+  name: "Musamm White",
+  oldPrice: 1999,
+  newPrice: 999,
+  image: "/image/Musamm White.jpg",
+  description: "عطر أنيق وفخم بلمسة ناعمة وجذابة",
+  size: "100ml",
+  longevity: "ثبات طويل",
+  projection: "فوحان قوي",
+},
 ];
 const shippingPrices = {
   "القاهرة": 100,
