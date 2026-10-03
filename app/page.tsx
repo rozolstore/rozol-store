@@ -288,6 +288,17 @@ const perfumes: Perfume[] = [
   longevity: "Long Lasting",
   projection: "Strong",
 },
+{
+  id: 24,
+  name: "Louis Vuitton Ombre Nomade",
+  oldPrice: 1900,
+  newPrice: 1199,
+  image: "/image/Ombre Nomade.jpg",
+  description: "عطر فاخر بطابع شرقي دافئ يجمع بين العود ولمسات جلدية وعنبرية",
+  size: "100ml",
+  longevity: "Long Lasting",
+  projection: "Strong",
+},
 ];
 const shippingPrices = {
   "القاهرة": 100,
