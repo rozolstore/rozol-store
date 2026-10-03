@@ -423,6 +423,7 @@ export default function Home() {
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerGovernorate, setCustomerGovernorate] = useState("");
   const [customerNotes, setCustomerNotes] = useState("");
+  const [checkoutStarted, setCheckoutStarted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 const productsPerPage = 8;
 const menIds = [1, 2, 3, 5, 12, 13, 14, 19, 21, 23, 24];
@@ -581,22 +582,30 @@ return (
   className="max-w-7xl mx-auto px-6 py-20"
 >
   <div className="flex flex-wrap justify-center gap-3 mb-10">
-    <button
-      onClick={() => {
-        setCategory("all");
-        setCurrentPage(1);
-      }}
-      className="px-6 py-3 rounded-xl bg-yellow-500 text-black font-bold"
-    >
-     All
-    </button>
+<button
+  onClick={() => {
+    setCategory("all");
+    setCurrentPage(1);
+  }}
+  className={`px-6 py-3 rounded-xl font-bold duration-300 ${
+    category === "all"
+      ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
+      : "bg-[#4a1210] text-white border border-[#d2af53]/30 hover:border-[#d2af53]"
+  }`}
+>
+  All
+</button>
 
     <button
       onClick={() => {
         setCategory("men");
         setCurrentPage(1);
       }}
-      className="px-6 py-3 rounded-xl bg-zinc-800 text-white font-bold"
+      className={`px-6 py-3 rounded-xl font-bold duration-300 ${
+        category === "men"
+          ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
+          : "bg-[#4a1210] text-white border border-[#d2af53]/30 hover:border-[#d2af53]"
+      }`}
     >
       👨 Man
     </button>
@@ -606,7 +615,11 @@ return (
         setCategory("women");
         setCurrentPage(1);
       }}
-      className="px-6 py-3 rounded-xl bg-zinc-800 text-white font-bold"
+      className={`px-6 py-3 rounded-xl font-bold duration-300 ${
+        category === "women"
+          ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
+          : "bg-[#4a1210] text-white border border-[#d2af53]/30 hover:border-[#d2af53]"
+      }`}
     >
       👩 Woman
     </button>
@@ -616,11 +629,15 @@ return (
         setCategory("unisex");
         setCurrentPage(1);
       }}
-      className="px-6 py-3 rounded-xl bg-zinc-800 text-white font-bold"
+      className={`px-6 py-3 rounded-xl font-bold duration-300 ${
+        category === "unisex"
+          ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
+          : "bg-[#4a1210] text-white border border-[#d2af53]/30 hover:border-[#d2af53]"
+      }`}
     >
       👫 Unisex
     </button>
-  </div>
+      </div>
 
   <h2 className="text-5xl font-black text-center mb-4">
     أشهر العطور
@@ -635,7 +652,7 @@ return (
     {currentPerfumes.map((item) => (
 <div
   key={item.id}
-  className="relative group bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 hover:border-yellow-500 duration-300 shadow-2xl"
+className="relative group bg-[#4a1210] rounded-3xl overflow-hidden border border-[#d2af53]/30 hover:border-[#d2af53] duration-300 shadow-2xl"
 >
               {/* Discount */}
 
@@ -652,25 +669,24 @@ return (
     alt={item.name}
     width={500}
     height={500}
-    className="w-full h-80 object-cover group-hover:scale-110 duration-500"
+className="w-full h-80 object-contain group-hover:scale-105 duration-500 p-4"
   />
 </div>
               <div className="p-6">
 
-                <h3 className="text-2xl font-bold">
-                  {item.name}
-                </h3>
+<h3 className="text-xl font-bold text-white group-hover:text-[#d2af53] duration-300">
+  {item.name}
+</h3>
 
                 <div className="mt-4 flex items-center gap-3">
 
-                  <span className="text-gray-500 line-through text-lg">
+                  <span className="text-white/50 line-through text-base">
                     {item.oldPrice} EGP
                   </span>
 
-                  <span className="text-3xl text-yellow-500 font-black">
+                  <span className="text-2xl text-[#d2af53] font-black">
                     {item.newPrice} EGP
                   </span>
-
                 </div>
 
                 <p className="text-green-400 mt-2">
@@ -680,12 +696,14 @@ return (
                 <div className="flex gap-3 mt-6">
 
                   <button
-                    onClick={() => addToCart(item)}
-                    className="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-xl font-bold duration-300"
+onClick={() => {
+  addToCart(item);
+  setCheckoutStarted(false);
+  setOpenCart(true);
+}}                    className="flex-1 bg-[#d2af53] hover:bg-[#e5c66a] text-black py-3 rounded-xl font-bold duration-300 hover:scale-[1.02] shadow-lg"
                   >
                     أضف للسلة
                   </button>
-
                   <button
                     className="w-14 rounded-xl border border-yellow-500 hover:bg-red-500 hover:border-red-500 duration-300"
                   >
@@ -1010,16 +1028,18 @@ return (
 {openCart && (
   <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
 
-<div className="bg-white text-black w-[92%] max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl p-6 shadow-2xl">
-      <div className="flex justify-between items-center mb-6">
+<div className="bg-white text-black w-[90%] max-w-md max-h-[80vh] overflow-y-auto rounded-3xl p-5 shadow-2xl">
+        <div className="flex justify-between items-center mb-6">
 
-        <h2 className="text-3xl font-black">
-          🛒 تأكيد الطلب
-        </h2>
+<h2 className="text-2xl font-black text-[#5f1815]">
+  🛒 تأكيد الطلب
+</h2>
 
         <button
-          onClick={() => setOpenCart(false)}
-          className="text-3xl hover:text-red-500 duration-300"
+onClick={() => {
+  setOpenCart(false);
+  setCheckoutStarted(false);
+}}          className="text-3xl hover:text-red-500 duration-300"
         >
           ✕
         </button>
@@ -1039,10 +1059,47 @@ return (
 
         </div>
 
-      ) : (
+) : !checkoutStarted ? (
 
-        <>
+  <div className="text-center py-8">
 
+    <p className="text-5xl">🛍️</p>
+
+    <h3 className="text-2xl font-black text-[#5f1815] mt-4">
+      إيه اللي تحب تعمله؟
+    </h3>
+
+    <p className="text-gray-500 mt-2 mb-6">
+      المنتج اتضاف للسلة بنجاح
+    </p>
+
+    <div className="flex gap-3">
+
+      <button
+onClick={() => {
+  setOpenCart(false);
+  document.getElementById("products")?.scrollIntoView({
+    behavior: "smooth",
+  });
+}}        className="flex-1 border-2 border-[#5f1815] text-[#5f1815] py-3 rounded-xl font-bold hover:bg-[#5f1815] hover:text-white duration-300"
+      >
+        🛍️ متابعة التسوق
+      </button>
+
+      <button
+        onClick={() => setCheckoutStarted(true)}
+        className="flex-1 bg-[#d2af53] text-black py-3 rounded-xl font-bold hover:bg-[#e5c66a] duration-300"
+      >
+        ✅ إكمال الطلب
+      </button>
+
+    </div>
+
+  </div>
+
+) : (
+
+  <>
           <div className="space-y-3 mb-6">
 
             <input
@@ -1050,35 +1107,33 @@ return (
               placeholder="الاسم"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              className="w-full border p-3 rounded-xl"
-            />
+className="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-[#d2af53] focus:ring-2 focus:ring-[#d2af53]/20 duration-200"            />
 
             <input
               type="text"
               placeholder="رقم الهاتف"
               value={customerPhone}
               onChange={(e) => setCustomerPhone(e.target.value)}
-              className="w-full border p-3 rounded-xl"
-            />
+className="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-[#d2af53] focus:ring-2 focus:ring-[#d2af53]/20 duration-200"            />
 
             <textarea
               placeholder="العنوان"
               value={customerAddress}
               onChange={(e) => setCustomerAddress(e.target.value)}
-              className="w-full border p-3 rounded-xl"
+className="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-[#d2af53] focus:ring-2 focus:ring-[#d2af53]/20 duration-200"
             />
 <textarea
   placeholder="ملاحظات الطلب (اختياري)"
   value={customerNotes}
   onChange={(e) => setCustomerNotes(e.target.value)}
-  className="w-full border p-3 rounded-xl"
+className="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-[#d2af53] focus:ring-2 focus:ring-[#d2af53]/20 duration-200"
   rows={3}
 />
 <select
 
   value={customerGovernorate}
   onChange={(e) => setCustomerGovernorate(e.target.value)}
-  className="w-full border p-3 rounded-xl mt-3"
+className="w-full border border-gray-200 p-3 rounded-xl outline-none focus:border-[#d2af53] focus:ring-2 focus:ring-[#d2af53]/20 duration-200"
 >
   <option value="">اختر المحافظة</option>
   <option value="القاهرة">القاهرة</option>
@@ -1112,19 +1167,16 @@ return (
           </div>
 
 
-          <div className="space-y-4 max-h-60 overflow-y-auto">
-
+<div className="space-y-2 max-h-44 overflow-y-auto">
             {cart.map((item, index) => (
 
               <div
                 key={index}
-                className="flex justify-between items-center border-b pb-4"
-              >
+className="flex justify-between items-center border-b border-gray-100 pb-3"              >
 
                 <div>
 
-                  <h3 className="font-bold text-lg">
-                    {item.name}
+<h3 className="font-bold text-base text-[#5f1815]">                    {item.name}
                   </h3>
 
                   <p className="text-yellow-600 font-bold">
@@ -1135,7 +1187,7 @@ return (
 
                 <button
                   onClick={() => removeFromCart(index)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-xl"
+className="bg-red-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold hover:bg-red-600 duration-200"
                 >
                   حذف
                 </button>
@@ -1147,36 +1199,41 @@ return (
           </div>
 
 
-          <div className="mt-8 border-t pt-5 flex justify-between text-2xl font-black">
-
-<div className="mt-8 border-t pt-5 space-y-3 text-lg">
-
+<div className="mt-5 border-t pt-4 space-y-3 text-base">
+<div className="space-y-3">
   <div className="flex justify-between">
     <span>ثمن المنتجات</span>
     <span>{total} EGP</span>
   </div>
 
-  <div className="flex justify-between">
-    <span>🚚 الشحن</span>
-    <span>{shipping} EGP</span>
-  </div>
+<div className="flex justify-between items-center">
+  <span className="text-gray-600">🚚 الشحن</span>
+
+  <span className="font-bold text-[#5f1815]">
+    {shipping === 0 ? "مجاني" : `${shipping} EGP`}
+  </span>
+</div>
 {total > 2000 && (
-  <div className="bg-green-900/30 border border-green-500/30 rounded-xl p-3 text-center text-green-400 font-bold mb-4">
-    🎉 مبروك! طلبك فوق 2000 جنيه — الشحن مجاني 🚚
-  </div>
+<div className="bg-[#d2af53]/15 border border-[#d2af53]/50 rounded-xl p-3 text-center text-[#5f1815] font-bold text-sm mb-4 shadow-sm">
+  🎉 مبروك! طلبك فوق 2000 جنيه — الشحن مجاني 🚚
+</div>
 )}
 
 {total > 0 && total <= 2000 && (
-  <div className="bg-yellow-900/20 border border-yellow-500/20 rounded-xl p-3 text-center text-yellow-400 font-bold mb-4">
-    🎁 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني
-  </div>
+<div className="bg-[#5f1815]/5 border border-[#5f1815]/20 rounded-xl p-3 text-center text-[#5f1815] font-bold text-sm mb-4">
+  🎁 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني
+</div>
 )}
 
-  <div className="flex justify-between text-2xl font-black border-t pt-3">
-    <span>الإجمالي</span>
-    <span>{finalTotal} EGP</span>
-  </div>
+<div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-2">
+  <span className="text-lg font-bold text-gray-700">
+    الإجمالي
+  </span>
 
+  <span className="text-2xl font-black text-[#5f1815]">
+    {finalTotal} EGP
+  </span>
+</div>
 </div>
           </div>
 
@@ -1246,7 +1303,7 @@ ${Object.values(
       "_blank"
     );
   }}
-  className="block w-full mt-7 bg-green-500 hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white text-center py-4 rounded-2xl font-bold text-lg duration-300"
+className="block w-full mt-5 bg-[#5f1815] hover:bg-[#4a1210] disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-center py-3.5 rounded-xl font-bold text-base duration-300 shadow-lg"
 >
   إرسال الطلب عبر واتساب
 </button>    </>
