@@ -269,8 +269,8 @@ const perfumes: Perfume[] = [
 {
   id: 22,
   name: "Valentino Donna",
-  oldPrice: 2850,
-  newPrice: 1000,
+  oldPrice: 2800,
+  newPrice: 1499,
   image: "/image/Valentino Donna.png",
   description: "عطر نسائي أنيق ومميز بلمسة وردية جذابة",
   size: "100ml",
@@ -280,8 +280,8 @@ const perfumes: Perfume[] = [
 {
   id: 23,
   name: "Valentino Uomo Born In Roma",
-  oldPrice: 2850,
-  newPrice: 1000,
+  oldPrice: 2800,
+  newPrice: 1299,
   image: "/image/Valentino Uomo.jpg",
   description: "عطر رجالي أنيق وجذاب بلمسة عصرية مميزة",
   size: "100ml",
