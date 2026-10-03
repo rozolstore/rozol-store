@@ -13,6 +13,7 @@ type Perfume = {
   size: string;
   longevity: string;
   projection: string;
+  
 };
 
 const perfumes: Perfume[] = [
@@ -345,7 +346,7 @@ const perfumes: Perfume[] = [
   projection: "Strong",
 },
 {
-  id: 28,
+  id: 29,
   name: "Burberry Her",
   oldPrice: 2500,
   newPrice: 1199,
@@ -357,7 +358,7 @@ const perfumes: Perfume[] = [
 },
 
 {
-  id: 29,
+  id: 30,
   name: "Louis Vuitton Pacific Chill",
   oldPrice: 2800,
   newPrice: 1399,
@@ -369,7 +370,7 @@ const perfumes: Perfume[] = [
 },
 
 {
-  id: 30,
+  id: 31,
   name: "Lattafa Atheeri",
   oldPrice: 2200,
   newPrice: 1299,
@@ -379,7 +380,9 @@ const perfumes: Perfume[] = [
   longevity: "Long Lasting",
   projection: "Strong",
 },
+
 ];
+
 const shippingPrices = {
   "القاهرة": 100,
   "الجيزة": 100,
@@ -420,7 +423,32 @@ export default function Home() {
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerGovernorate, setCustomerGovernorate] = useState("");
   const [customerNotes, setCustomerNotes] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+const productsPerPage = 8;
+const menIds = [1, 2, 3, 5, 12, 13, 14, 19, 21, 23, 24];
 
+const womenIds = [4, 7, 8, 10, 15, 17, 18, 20, 22, 25, 26, 27, 28, 29, 31];
+
+const unisexIds = [6, 9, 11, 16, 30];
+const [category, setCategory] = useState("all");
+const filteredPerfumes =
+  category === "all"
+    ? perfumes
+    : perfumes.filter((perfume) => {
+        if (category === "men") return menIds.includes(perfume.id);
+        if (category === "women") return womenIds.includes(perfume.id);
+        if (category === "unisex") return unisexIds.includes(perfume.id);
+        return true;
+      });
+
+const totalPages = Math.ceil(filteredPerfumes.length / productsPerPage);
+
+const startIndex = (currentPage - 1) * productsPerPage;
+
+const currentPerfumes = filteredPerfumes.slice(
+  startIndex,
+  startIndex + productsPerPage
+);
   const addToCart = (perfume: Perfume) => {
     setCart((prevCart) => [...prevCart, perfume]);
   };
@@ -450,26 +478,27 @@ const whatsappMessage =
   `\nالإجمالي النهائي: ${finalTotal} EGP`;
 
 return (
-  <main className="min-h-screen bg-black text-white">
-
-    {/* شريط العرض */}
-    <div className="w-full overflow-hidden bg-yellow-500 text-black font-bold">
+<main className="min-h-screen bg-[#5f1815] text-white">
+      {/* شريط العرض */}
+<div className="w-full overflow-hidden bg-[#5f1815] text-white font-bold border-b border-white/20">
       <div className="whitespace-nowrap py-2 animate-marquee">
         🎉 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني 🚚
         {"   •   "}
-        🔥 عرض من ROZOL
+        🔥 عرض من EISHQ
         {"   •   "}
         🎉 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني 🚚
       </div>
     </div>      {/* Navbar */}
-      <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-yellow-500/20">
+<nav className="sticky top-0 z-50 bg-[#3a0f0d] backdrop-blur border-b border-yellow-500/20">
+<div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-1 h-14">
 
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
-
-          <h1 className="text-3xl md:text-4xl font-black text-yellow-500 tracking-widest">
-            ROZOL
-          </h1>
-
+<Image
+  src="/image/logo2.png"
+  alt="EISHQ"
+  width={250}
+  height={120}
+  className="object-contain"
+/>
           <ul className="hidden md:flex gap-8 font-semibold">
 
             <li>
@@ -501,68 +530,109 @@ return (
 
       </nav>
 
-      {/* Hero */}
+{/* Hero */}
 
-      <section className="relative overflow-hidden py-28 px-6 text-center">
+<section className="relative overflow-hidden py-16 px-6 text-center">
 
-        <div className="absolute inset-0 bg-gradient-to-b from-yellow-500/10 via-transparent to-transparent"></div>
+  <div className="absolute inset-0 bg-gradient-to-b from-yellow-500/10 via-transparent to-transparent"></div>
 
-        <div className="relative max-w-4xl mx-auto">
+  <div className="relative max-w-4xl mx-auto">
 
-          <p className="uppercase tracking-[8px] text-yellow-500 font-bold">
-            Luxury Perfumes
-          </p>
+    <p className="uppercase tracking-[6px] text-yellow-500 font-bold">
+      Luxury Perfumes
+    </p>
 
-          <h1 className="text-6xl md:text-8xl font-black mt-6">
-            ROZOL
-          </h1>
+    <h1 className="text-5xl md:text-7xl font-black mt-4">
+      EISHQ
+    </h1>
 
-          <p className="text-gray-300 mt-8 text-xl leading-9">
-           عطور بجوده وثبات فاخر 🔥
-            <br />
-            اطلب الأن والدفع عند الأستلام
-          </p>
+    <p className="text-gray-300 mt-6 text-lg leading-8">
+      عطور بجوده وثبات فاخر 🔥
+      <br />
+      اطلب الأن والدفع عند الأستلام
+    </p>
 
-          <div className="mt-10 flex justify-center gap-5">
+    <div className="mt-8 flex justify-center gap-4">
 
-            <a
-              href="#products"
-              className="bg-yellow-500 hover:bg-yellow-400 hover:scale-105 duration-300 text-black px-10 py-4 rounded-full font-bold shadow-xl"
-            >
-             اطلب عطرك الآن 🔥
-            </a>
+      <a
+        href="#products"
+        className="bg-yellow-500 hover:bg-yellow-400 hover:scale-105 duration-300 text-black px-8 py-3 rounded-full font-bold shadow-xl"
+      >
+        اطلب عطرك الآن 🔥
+      </a>
 
-            <a
-              href="https://wa.me/201098941704"
-              target="_blank"
-              className="border border-yellow-500 hover:bg-yellow-500 hover:text-black duration-300 px-10 py-4 rounded-full font-bold"
-            >
-              واتساب
-            </a>
+      <a
+        href="https://wa.me/201098941704"
+        target="_blank"
+        className="border border-yellow-500 hover:bg-yellow-500 hover:text-black duration-300 px-8 py-3 rounded-full font-bold"
+      >
+        واتساب
+      </a>
 
-          </div>
+    </div>
 
-        </div>
+  </div>
 
-      </section>
+</section>
             {/* Products */}
 
-      <section
-        id="products"
-        className="max-w-7xl mx-auto px-6 py-20"
-      >
-        <h2 className="text-5xl font-black text-center mb-4">
-          أشهر العطور
-        </h2>
+<section
+  id="products"
+  className="max-w-7xl mx-auto px-6 py-20"
+>
+  <div className="flex flex-wrap justify-center gap-3 mb-10">
+    <button
+      onClick={() => {
+        setCategory("all");
+        setCurrentPage(1);
+      }}
+      className="px-6 py-3 rounded-xl bg-yellow-500 text-black font-bold"
+    >
+     All
+    </button>
 
-        <p className="text-center text-gray-400 mb-14">
-          عروض لفترة محدودة 🔥
-        </p>
+    <button
+      onClick={() => {
+        setCategory("men");
+        setCurrentPage(1);
+      }}
+      className="px-6 py-3 rounded-xl bg-zinc-800 text-white font-bold"
+    >
+      👨 Man
+    </button>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <button
+      onClick={() => {
+        setCategory("women");
+        setCurrentPage(1);
+      }}
+      className="px-6 py-3 rounded-xl bg-zinc-800 text-white font-bold"
+    >
+      👩 Woman
+    </button>
 
-          {perfumes.map((item) => (
+    <button
+      onClick={() => {
+        setCategory("unisex");
+        setCurrentPage(1);
+      }}
+      className="px-6 py-3 rounded-xl bg-zinc-800 text-white font-bold"
+    >
+      👫 Unisex
+    </button>
+  </div>
 
+  <h2 className="text-5xl font-black text-center mb-4">
+    أشهر العطور
+  </h2>
+
+  <p className="text-center text-gray-400 mb-14">
+    عروض لفترة محدودة 🔥
+  </p>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+    {currentPerfumes.map((item) => (
 <div
   key={item.id}
   className="relative group bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 hover:border-yellow-500 duration-300 shadow-2xl"
@@ -632,15 +702,36 @@ return (
 
         </div>
 
+        <div className="flex justify-center gap-3 mt-10 mb-10">
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-5 py-3 bg-zinc-800 rounded-xl disabled:opacity-30"
+          >
+            السابق
+          </button>
+
+          <span className="px-5 py-3 bg-yellow-500 text-black rounded-xl font-bold">
+            {currentPage}
+          </span>
+
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-5 py-3 bg-zinc-800 rounded-xl disabled:opacity-30"
+          >
+            التالي
+          </button>
+        </div>
+
       </section>
-            {/* Why Us */}
 
       <section
         id="why"
         className="py-24 px-6 bg-gradient-to-b from-zinc-900 to-black"
       >
         <h2 className="text-5xl font-black text-center">
-          لماذا تختار ROZOL؟
+          لماذا تختار Eishq؟
         </h2>
 
         <p className="text-center text-gray-400 mt-4">
@@ -858,11 +949,11 @@ return (
         <div className="max-w-6xl mx-auto px-6 text-center">
 
           <h2 className="text-4xl font-black text-yellow-500">
-            ROZOL
+            Eichq
           </h2>
 
           <p className="text-gray-400 mt-4">
-            أفخم العطور الرجالي والحريمي الأصلية
+            أفخم العطور الرجالي والحريمي 
           </p>
 
           <div className="flex justify-center gap-8 mt-8 text-lg">
@@ -897,7 +988,7 @@ return (
           </div>
 
           <p className="text-gray-600 mt-10">
-            © 2026 ROZOL. All Rights Reserved.
+            © 2026 Eichq Rights Reserved.
           </p>
 
         </div>
@@ -1108,7 +1199,7 @@ return (
 
     window.open(
       `https://wa.me/201098941704?text=${encodeURIComponent(
-`🛍️ طلب جديد من ROZOL
+`🛍️ طلب جديد من Eichq
 
 👤 الاسم: ${customerName}
 📞 الهاتف: ${customerPhone}
@@ -1145,7 +1236,7 @@ ${Object.values(
 💰 إجمالي الطلب: ${finalTotal} EGP
 
 
-🙏 شكرًا لاختيارك ROZOL ❤️
+🙏 شكرًا لاختيارك Eichq
 
 
 🔒 جميع بياناتك محفوظة بسرية تامة.
