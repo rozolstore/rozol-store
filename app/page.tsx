@@ -277,6 +277,17 @@ const perfumes: Perfume[] = [
   longevity: "Long Lasting",
   projection: "Strong",
 },
+{
+  id: 23,
+  name: "Valentino Uomo Born In Roma",
+  oldPrice: 2850,
+  newPrice: 1000,
+  image: "/image/Valentino Uomo.jpg",
+  description: "عطر رجالي أنيق وجذاب بلمسة عصرية مميزة",
+  size: "100ml",
+  longevity: "Long Lasting",
+  projection: "Strong",
+},
 ];
 const shippingPrices = {
   "القاهرة": 100,
