@@ -19,8 +19,8 @@ const perfumes: Perfume[] = [
   {
     id: 1,
     name: "Bleu de Chanel",
-    oldPrice: 1599,
-    newPrice: 799,
+    oldPrice: 1600,
+    newPrice: 899,
     image: "/image/bleu.jpg",
     description: "عطر رجالي فاخر برائحة منعشة وخشبية يناسب جميع المناسبات.",
     size: "100ml",
@@ -31,8 +31,8 @@ const perfumes: Perfume[] = [
   {
     id: 2,
     name: "Versace Eros",
-    oldPrice: 1599,
-    newPrice: 799,
+    oldPrice: 1600,
+    newPrice: 899,
     image: "/image/eros.jpg",
     description: "عطر رجالي جذاب بطابع شرقي ومنعش يمنحك حضورًا مميزًا.",
     size: "100ml",
@@ -43,8 +43,8 @@ const perfumes: Perfume[] = [
   {
     id: 3,
     name: "Dior Sauvage",
-    oldPrice: 1499,
-    newPrice: 799,
+    oldPrice: 1600,
+    newPrice: 899,
     image: "/image/sauvage.jpg",
     description: "عطر رجالي فاخر بثبات وفوحان ممتاز يناسب جميع الأوقات.",
     size: "100ml",
@@ -55,8 +55,8 @@ const perfumes: Perfume[] = [
   {
     id: 4,
     name: "YSL Y",
-    oldPrice: 1599,
-    newPrice: 799,
+    oldPrice: 1700,
+    newPrice: 1099,
     image: "/image/ysl.jpg",
     description: "عطر شبابي أنيق برائحة منعشة وخشبية.",
     size: "100ml",
@@ -67,8 +67,8 @@ const perfumes: Perfume[] = [
   {
     id: 5,
     name: "ايربابورا",
-    oldPrice: 1999,
-    newPrice: 999,
+    oldPrice: 1800,
+    newPrice: 1199,
     image: "/image/erba.jpg",
     description: "عطر فاخر برائحة منعشة وفخمة.",
     size: "100ml",
@@ -79,8 +79,8 @@ const perfumes: Perfume[] = [
   {
     id: 6,
     name: "بيانكو لاتيه",
-    oldPrice: 1599,
-    newPrice: 799,
+    oldPrice: 1700,
+    newPrice: 1099,
     image: "/image/bianco.jpg",
     description: "عطر ناعم وأنيق برائحة مميزة.",
     size: "100ml",
@@ -91,8 +91,8 @@ const perfumes: Perfume[] = [
   {
     id: 7,
     name: "يارا",
-    oldPrice: 1799,
-    newPrice: 999,
+    oldPrice: 2000,
+    newPrice: 1499,
     image: "/image/yara.jpg",
     description: "عطر حريمي جذاب برائحة حلوة وفاخرة.",
     size: "100ml",
@@ -103,8 +103,8 @@ const perfumes: Perfume[] = [
   {
     id: 8,
     name: "دوف",
-    oldPrice: 1499,
-    newPrice: 799,
+    oldPrice: 1300,
+    newPrice: 899,
     image: "/image/dove.jpg",
     description: "عطر راقي بإحساس نظيف ورائحة أنيقة.",
     size: "100ml",
@@ -115,8 +115,8 @@ const perfumes: Perfume[] = [
   {
     id: 9,
     name: "خمرة",
-    oldPrice: 1799,
-    newPrice: 899,
+    oldPrice: 1800,
+    newPrice: 1199,
     image: "/image/khamrah.jpg",
     description: "عطر شرقي فاخر برائحة دافئة وجذابة.",
     size: "100ml",
@@ -127,8 +127,8 @@ const perfumes: Perfume[] = [
   {
     id: 10,
     name: "Si",
-    oldPrice: 1499,
-    newPrice: 799,
+    oldPrice: 2000,
+    newPrice: 1499,
     image: "/image/si.jpg",
     description: "عطر حريمي راقي برائحة أنيقة.",
     size: "100ml",
@@ -141,8 +141,8 @@ const perfumes: Perfume[] = [
   {
     id: 11,
     name: "Khamrah Waha",
-    oldPrice: 1999,
-    newPrice: 999,
+    oldPrice: 2000,
+    newPrice: 1399,
     image: "/image/Khamrah Waha.jpg",
     description: "عطر فاخر برائحة مميزة وجذابة.",
     size: "100ml",
@@ -153,7 +153,7 @@ const perfumes: Perfume[] = [
   {
     id: 12,
     name: "Emporio Armani Stronger With You Black",
-    oldPrice: 1999,
+    oldPrice: 1600,
     newPrice: 999,
     image: "/image/Emporio Armani Stronger With You Black.jpg",
     description: "عطر رجالي جذاب برائحة قوية وعصرية.",
@@ -165,8 +165,8 @@ const perfumes: Perfume[] = [
   {
     id: 13,
     name: "Emporio Armani Stronger With You Green",
-    oldPrice: 1999,
-    newPrice: 999,
+    oldPrice: 1800,
+    newPrice: 1199,
     image: "/image/Emporio Armani Stronger With You Green.jpg",
     description: "عطر أنيق ومنعش برائحة مميزة.",
     size: "100ml",
@@ -177,8 +177,8 @@ const perfumes: Perfume[] = [
   {
     id: 14,
     name: "Afnan Silver & Bronze",
-    oldPrice: 1999,
-    newPrice: 1199,
+    oldPrice: 2400,
+    newPrice: 1499,
     image: "/image/Afnan Silver & Bronze.jpg",
     description: "عطر فاخر بلمسة أنيقة وثبات مميز.",
     size: "100ml",
@@ -189,8 +189,8 @@ const perfumes: Perfume[] = [
   {
     id: 15,
     name: "Lattafa Eclaire",
-    oldPrice: 1599,
-    newPrice: 799,
+    oldPrice: 1600,
+    newPrice: 999,
     image: "/image/Lattafa Eclaire.jpg",
     description: "عطر حلو وناعم برائحة جذابة.",
     size: "100ml",
@@ -201,8 +201,8 @@ const perfumes: Perfume[] = [
   {
     id: 16,
     name: "Ghissa",
-    oldPrice: 1599,
-    newPrice: 799,
+    oldPrice: 1600,
+    newPrice: 999,
     image: "/image/Ghissa.jpg",
     description: "عطر أنيق برائحة مميزة.",
     size: "100ml",
@@ -213,8 +213,8 @@ const perfumes: Perfume[] = [
   {
     id: 17,
     name: "ghissa La Louna",
-    oldPrice: 1799,
-    newPrice: 899,
+    oldPrice: 2400,
+    newPrice: 1499,
     image: "/image/ghissa La Louna.jpg",
     description: "عطر جذاب برائحة مميزة.",
     size: "100ml",
@@ -225,8 +225,8 @@ const perfumes: Perfume[] = [
   {
     id: 18,
     name: "Laverne Sense",
-    oldPrice: 1699,
-    newPrice: 899,
+    oldPrice: 1900,
+    newPrice: 1299,
     image: "/image/Laverne Sense.jpg",
     description: "عطر راقٍ برائحة مميزة وثبات جيد.",
     size: "100ml",
@@ -236,8 +236,8 @@ const perfumes: Perfume[] = [
   {
   id: 19,
   name: "Oud Madawi",
-  oldPrice: 1599,
-  newPrice: 899,
+  oldPrice: 1800,
+  newPrice: 1199,
   image: "/image/Oud Madawi.jpg",
   description: "عطر عود فاخر بلمسة شرقية جذابة",
   size: "100ml",
@@ -247,8 +247,8 @@ const perfumes: Perfume[] = [
 {
   id: 20,
   name: "Amerat Al Arab",
-  oldPrice: 1200,
-  newPrice: 800,
+  oldPrice: 1800,
+  newPrice: 1199,
   image: "/image/Amerat Al Arab.jpg",
   description: "عطر عربي أنيق بلمسة فاخرة وجذابة",
   size: "100ml",
@@ -258,7 +258,7 @@ const perfumes: Perfume[] = [
 {
   id: 21,
   name: "Musamm White",
-  oldPrice: 1999,
+  oldPrice: 2000,
   newPrice: 999,
   image: "/image/Musamm White.jpg",
   description: "عطر أنيق وفخم بلمسة ناعمة وجذابة",
@@ -297,43 +297,58 @@ const shippingPrices = {
   "مطروح": 120,
   "الوادي الجديد": 120,
 };
-const confirmPayment = 100;
 export default function Home() {
   const [cart, setCart] = useState<Perfume[]>([]);
   const [openCart, setOpenCart] = useState(false);
-const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
+  const [selectedPerfume, setSelectedPerfume] = useState<Perfume | null>(null);
+
   const [customerName, setCustomerName] = useState("");
-const [customerPhone, setCustomerPhone] = useState("");
-const [customerAddress, setCustomerAddress] = useState("");
-const [customerGovernorate, setCustomerGovernorate] = useState("");
-const [customerNotes, setCustomerNotes] = useState("");
-const addToCart = (perfume: Perfume) => {
-    setCart([...cart, perfume]);
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerGovernorate, setCustomerGovernorate] = useState("");
+  const [customerNotes, setCustomerNotes] = useState("");
+
+  const addToCart = (perfume: Perfume) => {
+    setCart((prevCart) => [...prevCart, perfume]);
   };
 
   const removeFromCart = (index: number) => {
-    setCart(cart.filter((_, i) => i !== index));
+    setCart((prevCart) => prevCart.filter((_, i) => i !== index));
   };
 
-  const total = cart.length * 800;
+const total = cart.reduce((sum, item) => sum + item.newPrice, 0);
+
 const shipping =
-  shippingPrices[
-    customerGovernorate as keyof typeof shippingPrices
-  ] || 0;
+  total >= 2000
+    ? 0
+    : shippingPrices[
+        customerGovernorate as keyof typeof shippingPrices
+      ] || 0;
 
 const finalTotal = total + shipping;
-const remaining = finalTotal - confirmPayment;
-  const whatsappMessage =
-    "السلام عليكم، أريد طلب:\n\n" +
-    cart
-      .map((item) => `• ${item.name} - ${item.newPrice} EGP`)
-      .join("\n") +
-    `\n\nالإجمالي: ${total} EGP`;
 
-  return (
-    <main className="min-h-screen bg-black text-white">
+const whatsappMessage =
+  "السلام عليكم، أريد طلب:\n\n" +
+  cart
+    .map((item) => `• ${item.name} - ${item.newPrice} EGP`)
+    .join("\n") +
+  `\n\nسعر المنتجات: ${total} EGP` +
+  `\nسعر الشحن: ${shipping} EGP` +
+  `\nالإجمالي النهائي: ${finalTotal} EGP`;
 
-      {/* Navbar */}
+return (
+  <main className="min-h-screen bg-black text-white">
+
+    {/* شريط العرض */}
+    <div className="w-full overflow-hidden bg-yellow-500 text-black font-bold">
+      <div className="whitespace-nowrap py-2 animate-marquee">
+        🎉 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني 🚚
+        {"   •   "}
+        🔥 عرض من ROZOL
+        {"   •   "}
+        🎉 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني 🚚
+      </div>
+    </div>      {/* Navbar */}
       <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-yellow-500/20">
 
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
@@ -390,7 +405,7 @@ const remaining = finalTotal - confirmPayment;
           </h1>
 
           <p className="text-gray-300 mt-8 text-xl leading-9">
-           عطور أصلية بثبات فاخر 🔥
+           عطور بجوده وثبات فاخر 🔥
             <br />
             اطلب الأن والدفع عند الأستلام
           </p>
@@ -442,7 +457,7 @@ const remaining = finalTotal - confirmPayment;
               {/* Discount */}
 
               <div className="absolute bg-red-600 text-white px-4 py-1 rounded-br-2xl font-bold z-10">
-                خصم 55%
+                خصم 35%
               </div>
 
 <div
@@ -526,29 +541,33 @@ const remaining = finalTotal - confirmPayment;
             <div className="text-6xl">💎</div>
 
             <h3 className="text-2xl font-bold text-yellow-500 mt-6">
-              أصلية 100%
+              ثبات 100%
             </h3>
 
             <p className="text-gray-400 mt-4 leading-8">
-              جميع العطور لدينا أصلية بجودة عالية وثبات ممتاز.
+            
+         يوجد لدينا جميع العطور لطابع من اول لحظة وحتي اخر اثر.
             </p>
 
           </div>
 
-          <div className="bg-zinc-900 border border-zinc-800 hover:border-yellow-500 rounded-3xl p-8 text-center duration-300">
+<div className="bg-zinc-900 border border-zinc-800 hover:border-yellow-500 rounded-3xl p-8 text-center duration-300">
 
-            <div className="text-6xl">🚚</div>
+  <div className="text-6xl">🚚</div>
 
-            <h3 className="text-2xl font-bold text-yellow-500 mt-6">
-              شحن سريع
-            </h3>
+  <h3 className="text-2xl font-bold text-yellow-500 mt-6">
+    شحن سريع
+  </h3>
 
-            <p className="text-gray-400 mt-4 leading-8">
-              توصيل لجميع المحافظات خلال أيام قليلة.
-            </p>
+  <p className="text-gray-400 mt-4 leading-8">
+    توصيل لجميع المحافظات من 2 - 3 أيام.
+  </p>
 
-          </div>
+  <p className="text-green-400 font-bold mt-3">
+    🎉 الشحن مجاني للطلبات فوق 2000 جنيه
+  </p>
 
+</div>
           <div className="bg-zinc-900 border border-zinc-800 hover:border-yellow-500 rounded-3xl p-8 text-center duration-300">
 
             <div className="text-6xl">⭐</div>
@@ -642,13 +661,13 @@ const remaining = finalTotal - confirmPayment;
           <p className="text-2xl mt-6">
             بدلاً من
             <span className="line-through mx-2">
-              1999 EGP
+              1800 EGP
             </span>
 
             فقط
 
             <span className="font-black text-4xl mx-2">
-              999 EGP
+              1199 EGP
             </span>
 
           </p>
@@ -937,16 +956,17 @@ const remaining = finalTotal - confirmPayment;
     <span>🚚 الشحن</span>
     <span>{shipping} EGP</span>
   </div>
-
-  <div className="flex justify-between text-green-600 font-bold">
-    <span>✅ مبلغ تأكيد الطلب</span>
-    <span>{confirmPayment} EGP</span>
+{total > 2000 && (
+  <div className="bg-green-900/30 border border-green-500/30 rounded-xl p-3 text-center text-green-400 font-bold mb-4">
+    🎉 مبروك! طلبك فوق 2000 جنيه — الشحن مجاني 🚚
   </div>
+)}
 
-  <div className="flex justify-between text-yellow-600 font-bold">
-    <span>💵 المتبقي عند الاستلام</span>
-    <span>{remaining} EGP</span>
+{total > 0 && total <= 2000 && (
+  <div className="bg-yellow-900/20 border border-yellow-500/20 rounded-xl p-3 text-center text-yellow-400 font-bold mb-4">
+    🎁 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني
   </div>
+)}
 
   <div className="flex justify-between text-2xl font-black border-t pt-3">
     <span>الإجمالي</span>
@@ -1011,26 +1031,13 @@ ${Object.values(
 
 💰 إجمالي الطلب: ${finalTotal} EGP
 
-💳 مبلغ تأكيد الطلب: ${confirmPayment} EGP
-
-💵 المتبقي عند الاستلام: ${remaining} EGP
-
-━━━━━━━━━━━━━━━━━━━━
-
-💰 بيانات التحويل
-
-📱 فودافون كاش:
-01098941704
-
-━━━━━━━━━━━━━━━━━━━━
 
 🙏 شكرًا لاختيارك ROZOL ❤️
 
-✅ لتأكيد الطلب، يرجى تحويل مبلغ تأكيد الطلب على رقم فودافون كاش الموضح بالأعلى، ثم إرسال صورة أو لقطة شاشة لإثبات التحويل عبر واتساب.
 
 🔒 جميع بياناتك محفوظة بسرية تامة.
 
-📦 بعد مراجعة التحويل سيتم تأكيد الطلب وتجهيزه للشحن في أقرب وقت.`
+📦 بعد مراجعة الطلب سيتم تجهيزه للشحن في أقرب وقت.`
       )}`,
       "_blank"
     );
