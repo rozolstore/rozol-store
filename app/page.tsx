@@ -266,6 +266,17 @@ const perfumes: Perfume[] = [
   longevity: "ثبات طويل",
   projection: "فوحان قوي",
 },
+{
+  id: 22,
+  name: "Valentino Donna",
+  oldPrice: 2850,
+  newPrice: 1000,
+  image: "/image/Valentino Donna.png",
+  description: "عطر نسائي أنيق ومميز بلمسة وردية جذابة",
+  size: "100ml",
+  longevity: "Long Lasting",
+  projection: "Strong",
+},
 ];
 const shippingPrices = {
   "القاهرة": 100,
