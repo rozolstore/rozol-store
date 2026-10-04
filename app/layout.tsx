@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ROZOL",
+  title: "EISHQ",
   description: "Luxury Within Reach",
 };
 
