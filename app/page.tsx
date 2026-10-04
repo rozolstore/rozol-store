@@ -1144,10 +1144,8 @@ onClick={() => {
       <button
 onClick={() => {
   setOpenCart(false);
-  document.getElementById("products")?.scrollIntoView({
-    behavior: "smooth",
-  });
-}}        className="flex-1 border-2 border-[#5f1815] text-[#5f1815] py-3 rounded-xl font-bold hover:bg-[#5f1815] hover:text-white duration-300"
+}}
+      className="flex-1 border-2 border-[#5f1815] text-[#5f1815] py-3 rounded-xl font-bold hover:bg-[#5f1815] hover:text-white duration-300"
       >
         🛍️ متابعة التسوق
       </button>
