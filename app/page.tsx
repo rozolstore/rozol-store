@@ -977,7 +977,7 @@ onClick={() => {
           <div className="flex justify-center gap-8 mt-8 text-lg">
 
             <a
-              href="https://www.instagram.com/rozol.store"
+              href="https://www.instagram.com/eishq.store"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-yellow-500 duration-300"
@@ -995,7 +995,7 @@ onClick={() => {
             </a>
 
             <a
-              href="https://wa.me/201098941704"
+              href="https://wa.me/201042362785"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-yellow-500 duration-300"
@@ -1016,7 +1016,7 @@ onClick={() => {
       {/* Floating WhatsApp */}
 
       <a
-        href="https://wa.me/201098941704"
+        href="https://wa.me/201042362785"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 hover:scale-110 duration-300 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl text-4xl z-50"
@@ -1255,7 +1255,7 @@ className="bg-red-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold hover:
       return;
 
     window.open(
-      `https://wa.me/201098941704?text=${encodeURIComponent(
+      `https://wa.me/201042362785?text=${encodeURIComponent(
 `🛍️ طلب جديد من Eichq
 
 👤 الاسم: ${customerName}
