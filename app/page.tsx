@@ -450,10 +450,32 @@ const currentPerfumes = filteredPerfumes.slice(
   startIndex,
   startIndex + productsPerPage
 );
-  const addToCart = (perfume: Perfume) => {
-    setCart((prevCart) => [...prevCart, perfume]);
-  };
 
+const [cartAnimation, setCartAnimation] = useState(false);
+const [showAddedMessage, setShowAddedMessage] = useState(false);
+const [firstProductAdded, setFirstProductAdded] = useState(false);
+const addToCart = (perfume: Perfume) => {
+
+  setCart((prevCart) => [...prevCart, perfume]);
+
+  setCartAnimation(true);
+
+  setShowAddedMessage(true);
+
+  setTimeout(() => {
+    setCartAnimation(false);
+  }, 500);
+
+  setTimeout(() => {
+    setShowAddedMessage(false);
+  }, 2000);
+
+  if (!firstProductAdded) {
+    setFirstProductAdded(true);
+    setOpenCart(true);
+  }
+
+};
   const removeFromCart = (index: number) => {
     setCart((prevCart) => prevCart.filter((_, i) => i !== index));
   };
@@ -479,8 +501,14 @@ const whatsappMessage =
   `\nالإجمالي النهائي: ${finalTotal} EGP`;
 
 return (
+  
 <main className="min-h-screen bg-[#5f1815] text-white">
       {/* شريط العرض */}
+      {showAddedMessage && (
+  <div className="fixed top-24 right-5 z-50 bg-[#5f1815] text-white px-5 py-3 rounded-xl shadow-lg">
+    تم إضافة العطر للسلة 🛍️
+  </div>
+)}
 <div className="w-full overflow-hidden bg-[#5f1815] text-white font-bold border-b border-white/20">
       <div className="whitespace-nowrap py-2 animate-marquee">
         🎉 اطلب بأكثر من 2000 جنيه واحصل على شحن مجاني 🚚
@@ -520,13 +548,14 @@ return (
 
           </ul>
 
-          <button
-            onClick={() => setOpenCart(true)}
-            className="bg-yellow-500 hover:scale-105 duration-300 text-black px-5 py-2 rounded-full font-bold shadow-lg"
-          >
-            🛒 {cart.length}
-          </button>
-
+<button
+  onClick={() => setOpenCart(true)}
+  className={`bg-yellow-500 hover:scale-105 duration-300 text-black px-5 py-2 rounded-full font-bold shadow-lg ${
+    cartAnimation ? "animate-bounce" : ""
+  }`}
+>
+  🛒 {cart.length}
+</button>
         </div>
 
       </nav>
@@ -583,10 +612,17 @@ return (
 >
   <div className="flex flex-wrap justify-center gap-3 mb-10">
 <button
-  onClick={() => {
-    setCategory("all");
-    setCurrentPage(1);
-  }}
+onClick={() => {
+  setCategory("all");
+  setCurrentPage(1);
+
+  setTimeout(() => {
+    document.getElementById("products")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 100);
+}}
   className={`px-6 py-3 rounded-xl font-bold duration-300 ${
     category === "all"
       ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
@@ -597,10 +633,17 @@ return (
 </button>
 
     <button
-      onClick={() => {
-        setCategory("men");
-        setCurrentPage(1);
-      }}
+onClick={() => {
+  setCategory("men");
+  setCurrentPage(1);
+
+  setTimeout(() => {
+    document.getElementById("products")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 100);
+}}
       className={`px-6 py-3 rounded-xl font-bold duration-300 ${
         category === "men"
           ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
@@ -611,10 +654,17 @@ return (
     </button>
 
     <button
-      onClick={() => {
-        setCategory("women");
-        setCurrentPage(1);
-      }}
+onClick={() => {
+  setCategory("women");
+  setCurrentPage(1);
+
+  setTimeout(() => {
+    document.getElementById("products")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 100);
+}}
       className={`px-6 py-3 rounded-xl font-bold duration-300 ${
         category === "women"
           ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
@@ -625,10 +675,17 @@ return (
     </button>
 
     <button
-      onClick={() => {
-        setCategory("unisex");
-        setCurrentPage(1);
-      }}
+onClick={() => {
+  setCategory("unisex");
+  setCurrentPage(1);
+
+  setTimeout(() => {
+    document.getElementById("products")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 100);
+}}
       className={`px-6 py-3 rounded-xl font-bold duration-300 ${
         category === "unisex"
           ? "bg-[#d2af53] text-black shadow-lg shadow-yellow-500/30 scale-105"
@@ -699,8 +756,8 @@ className="w-full h-80 object-contain group-hover:scale-105 duration-500 p-4"
 onClick={() => {
   addToCart(item);
   setCheckoutStarted(false);
-  setOpenCart(true);
-}}                    className="flex-1 bg-[#d2af53] hover:bg-[#e5c66a] text-black py-3 rounded-xl font-bold duration-300 hover:scale-[1.02] shadow-lg"
+}}
+                   className="flex-1 bg-[#d2af53] hover:bg-[#e5c66a] text-black py-3 rounded-xl font-bold duration-300 hover:scale-[1.02] shadow-lg"
                   >
                     أضف للسلة
                   </button>
@@ -733,13 +790,22 @@ onClick={() => {
             {currentPage}
           </span>
 
-          <button
-            onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-5 py-3 bg-zinc-800 rounded-xl disabled:opacity-30"
-          >
-            التالي
-          </button>
+<button
+  onClick={() => {
+    setCurrentPage(currentPage + 1);
+
+    setTimeout(() => {
+      document.getElementById("perfumes")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 50);
+  }}
+  disabled={currentPage === totalPages}
+  className="px-5 py-3 bg-zinc-800 rounded-xl disabled:opacity-30"
+>
+  التالي
+</button>
         </div>
 
       </section>
