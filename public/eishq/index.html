@@ -29,6 +29,15 @@ button,select,input,textarea{font:inherit}
 .blade{color:var(--g)}
 header{position:sticky;top:0;z-index:20;background:var(--b);color:var(--g);padding-top:env(safe-area-inset-top,0)}
 header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+
+.menu-toggle {
+  display: inline-flex !important;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 30;
+}
+
+
 .brand{display:flex;align-items:baseline;gap:10px;font-size:1.6rem}
 .brand small{font-family:var(--sans);font-style:normal;font-size:1.05rem;color:#fff;opacity:.85}
 nav{display:flex;gap:26px;font-size:.95rem}
@@ -163,6 +172,54 @@ input,select,textarea{width:100%;padding:10px 12px;border:1px solid #cdbb9a;back
 @media(max-width:820px){.pd{grid-template-columns:1fr;gap:26px}.pdp{padding-top:22px}}
 @media(max-width:820px){nav{display:none}.hero .wrap,.story .wrap{grid-template-columns:1fr}.frame{display:none}.cols{grid-template-columns:1fr;gap:26px}section{padding:56px 0}.hero{padding:60px 0}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.menu-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: #5D2829;
+  border: 1px solid #DCC49D;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.menu-toggle span {
+  height: 2px;
+  width: 100%;
+  background: #F6F0E4;
+}
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: #0009;
+  display: none;
+}
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  width: min(320px, 85vw);
+  height: 100vh;
+  padding: 25px;
+  background: #F6F0E4;
+  color: #5D2829;
+  direction: rtl;
+  transform: translateX(105%);
+  transition: transform .3s;
+}
+body.menu-open .menu-overlay { display: block; }
+body.menu-open .side-menu { transform: translateX(0); }
+.side-menu a {
+  display: block;
+  padding: 15px 5px;
+  color: #5D2829;
+  text-decoration: none;
+  border-bottom: 1px solid #DCC49D;
+}
 </style>
 <script>
 /* Meta Pixel: ضع رقم البيكسل من Events Manager مكان YOUR_PIXEL_ID */
@@ -197,9 +254,30 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
 
 <img src="/image/logo2.png" alt="EISHQ" style="display:block;width:170px;height:auto;object-fit:contain;">
 </a>
- <nav><a href="#story">قصتنا</a><a href="#shop">العطور</a><a href="#why">لماذا عشق</a><a href="#faq">أسئلة شائعة</a></nav>
+ <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<nav><a href="#story">قصتنا</a><a href="#shop">العطور</a><a href="#why">لماذا عشق</a><a href="#faq">أسئلة شائعة</a></nav>
  <button class="cartbtn" id="openCart">السلة (<span id="cnt">٠</span>)</button>
 </div></header>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<aside class="side-menu" id="sideMenu">
+  <h2 style="margin: 10px 0 25px;">عشق EISHQ</h2>
+
+  <a href="#top">الرئيسية</a>
+  <a href="#shop">العطور</a>
+  <a href="#story">قصتنا</a>
+  <a href="#why">لماذا عشق</a>
+  <a href="#faq">الأسئلة الشائعة</a>
+  <a href="#contact">تواصل معنا</a>
+  <a href="#" id="menuCart">🛍️ سلة المشتريات</a>
+</aside>
+
 
 <main id="top">
 <div class="hero"><div class="wrap">
@@ -560,5 +638,35 @@ function route(){
 addEventListener("hashchange",route);
 grid();draw();route();
 </script>
+
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const menuOverlay = document.getElementById("menuOverlay");
+  const sideMenu = document.getElementById("sideMenu");
+  const menuCart = document.getElementById("menuCart");
+  const openCart = document.getElementById("openCart");
+
+  function closeMenu() {
+    document.body.classList.remove("menu-open");
+  }
+
+  menuToggle?.addEventListener("click", () => {
+    document.body.classList.toggle("menu-open");
+  });
+
+  menuOverlay?.addEventListener("click", closeMenu);
+
+  sideMenu?.querySelectorAll("a:not(#menuCart)").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  menuCart?.addEventListener("click", event => {
+    event.preventDefault();
+    closeMenu();
+    openCart?.click();
+  });
+</script>
+
+
 </body>
 </html>
