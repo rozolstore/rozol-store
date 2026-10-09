@@ -28,8 +28,22 @@ button,select,input,textarea{font:inherit}
 .blade{display:block;width:150px;height:14px;margin:14px 0}
 .blade{color:var(--g)}
 header{position:sticky;top:0;z-index:20;background:var(--b);color:var(--g);padding-top:env(safe-area-inset-top,0)}
-header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  height: 64px;
+}
 
+.menu-toggle {
+  flex-shrink: 0;
+  margin-right: 0;
+}
+
+header .cartbtn {
+  margin-right: auto;
+}
 .menu-toggle {
   display: inline-flex !important;
   flex-shrink: 0;
@@ -274,8 +288,8 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
   <a href="#story">قصتنا</a>
   <a href="#why">لماذا عشق</a>
   <a href="#faq">الأسئلة الشائعة</a>
-  <a href="#contact">تواصل معنا</a>
-  <a href="#" id="menuCart">🛍️ سلة المشتريات</a>
+  <a href="https://wa.me/201098941704" target="_blank" rel="noopener noreferrer">تواصل معنا</a>
+  
 </aside>
 
 
