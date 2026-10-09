@@ -77,7 +77,26 @@ details{border-bottom:1px solid #d9c9aa;padding:14px 0}
 summary{cursor:pointer;font-weight:600;color:var(--b)}
 details p{margin-top:8px;max-width:60ch}
 footer{background:var(--b) var(--dia);color:var(--g);padding:48px 0 32px;text-align:center}
-footer .links{display:flex;gap:22px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+
+footer .links {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  margin: 16px 0;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+}
+
+footer .links a {
+  display: inline-block;
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+
 footer small{color:#cdb98f}
 .shade{position:fixed;inset:0;background:rgba(30,10,10,.55);opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
 .drawer{position:fixed;top:0;bottom:0;inset-inline-start:0;width:min(420px,100%);background:var(--c);z-index:31;transform:translateX(102%);visibility:hidden;transition:transform .25s,visibility 0s .25s;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0)}
@@ -220,14 +239,44 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
 </main>
 <main class="pdp" id="pdp" hidden></main>
 
-<footer><div class="wrap">
- <div class="mark" style="font-size:2rem">EISHQ</div>
- <svg class="blade" viewBox="0 0 200 20" style="margin:8px auto"><use href="#bl"/></svg>
- <div>The scent of devotion</div>
- <div class="links"><a href="https://wa.me/201042362785">واتساب</a><a href="https://www.instagram.com/eishq.store">Instagram</a><a href="https://www.tiktok.com/@eishq_store">TikTok</a></div>
- <small>© 2026 EISHQ. جميع الحقوق محفوظة.</small>
-</div></footer>
+```html
+<footer>
+  <div class="wrap">
 
+    <div class="mark" style="font-size:2rem">EISHQ</div>
+
+    <svg class="blade" viewBox="0 0 200 20" style="margin:8px auto">
+      <use href="#bl"></use>
+    </svg>
+
+    <div>The scent of devotion</div>
+
+    <div class="links">
+      <a href="https://wa.me/201042362785"
+         target="_blank" rel="noopener noreferrer">واتساب</a>
+
+      <a href="https://www.instagram.com/eishq.store/"
+         target="_blank" rel="noopener noreferrer">Instagram</a>
+
+      <a href="https://www.tiktok.com/@eishq_store"
+         target="_blank" rel="noopener noreferrer">TikTok</a>
+
+      <a href="https://www.facebook.com/people/EISHQ-STORE/61595154659411/"
+         target="_blank" rel="noopener noreferrer">Facebook</a>
+
+      <a href="https://www.threads.com/@eishq.store"
+         target="_blank" rel="noopener noreferrer">Threads</a>
+
+      <a href="https://linktr.ee/eishq.store"
+         target="_blank" rel="noopener noreferrer">Linktree</a>
+    </div>
+
+    <small>© 2026 EISHQ. جميع الحقوق محفوظة.</small>
+
+  </div>
+</footer>
+```
+ 
 <a class="wa" href="https://wa.me/201042362785" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب">واتساب</a>
 
 <div id="root">
