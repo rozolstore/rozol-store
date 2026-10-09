@@ -42,8 +42,27 @@ nav a:hover{color:#fff}
 .btn{display:inline-block;background:var(--g);color:var(--d);border:0;padding:12px 28px;font-weight:700;cursor:pointer;border-radius:2px}
 .btn:hover{background:#e8d6b6}
 .btn.line{background:transparent;color:var(--g);border:1px solid var(--g);margin-inline-start:10px}
-.frame{border:1px solid var(--g);padding:18px;aspect-ratio:3/4;display:grid;place-items:center;background:rgba(55,24,24,.35)}
-.frame svg{width:60%}
+
+.frame {
+  border: 1px solid var(--g);
+  padding: 8px;
+  aspect-ratio: 4/5;
+  width: 85%;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  background: rgba(55,24,24,.35);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.frame svg {
+  width: 60%;
+}
 section{padding:76px 0}
 h2{font-family:var(--serif);font-size:clamp(1.7rem,3.4vw,2.4rem);color:var(--b);line-height:1.3}
 .story{background:var(--c)}
@@ -193,11 +212,15 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
 
 
 <div class="frame" style="min-height:300px;">
-  <img
-    src="/eishq/images/SHOP%20NOWww.png"
-    alt="اختبار صورة EISHQ"
-    style="display:block;width:125%;height:125%;object-fit:contain;transform:scale(1.2);"
-  />
+
+
+
+
+<img
+  src="/eishq/images/SHOP%20NOWww.png"
+  alt="EISHQ perfume"
+  style="display:block;width:100%;height:200%;object-fit:contain;margin:0 auto;transform:scale(1);"
+/>
 </div>
 </div></div>
 
@@ -208,7 +231,10 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
   <p>اسمنا يعني أعمق درجات الحب والشغف. نؤمن أن العطر هو الأثر الذي يبقى بعد اللحظة، فنختار كل تركيبة بعناية.</p>
   <p>رفاهية هادئة، بلا ضجيج، وتفاصيل مصنوعة كقطعة حِرفية.</p>
  </div>
- <div class="logo-note"><div class="ar">عشق</div><div class="mark" style="font-size:1.6rem">EISHQ</div><div>Luxury perfumes</div></div>
+
+<div class="logo-note">
+  <img src="/image/logo2.png" alt="EISHQ" style="width: 180px; height: auto; display: block; margin: 0 auto;" />
+</div>
 </div></section>
 
 <section class="shop" id="shop"><div class="wrap">
@@ -226,7 +252,7 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
  <div class="cols">
   <div><h3>عطور أصلية مختارة</h3><p>نختار لك عطوراً أصلية من دور عطور عالمية وشرقية، لتجد ما يشبهك بين مجموعة واحدة.</p></div>
   <div><h3>الدفع عند الاستلام</h3><p>اطلب أولاً وادفع عند وصول العطر إلى بابك، في جميع المحافظات.</p></div>
-  <div><h3>تغليف يليق بك</h3><p>تغليف البوكس الاريجينال</p></div>
+  <div><h3>تغليف يليق بك</h3><p>تغليف البوكس الاوريجينال</p></div>
  </div>
 </div></section>
 
@@ -239,7 +265,7 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
 </main>
 <main class="pdp" id="pdp" hidden></main>
 
-```html
+
 <footer>
   <div class="wrap">
 
@@ -275,7 +301,7 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
 
   </div>
 </footer>
-```
+
  
 <a class="wa" href="https://wa.me/201042362785" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب">واتساب</a>
 
