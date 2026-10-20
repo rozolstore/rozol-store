@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const url = process.env.SUPABASE_URL
     const secret = process.env.SUPABASE_SECRET_KEY;
 
     if (!url || !secret) {

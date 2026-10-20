@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseUrl = process.env.SUPABASE_URL
     const secretKey = process.env.SUPABASE_SECRET_KEY;
 
     if (!supabaseUrl || !secretKey) {
