@@ -1,8 +1,15 @@
+
 @import "tailwindcss";
 
+/* EISHQ Brand Colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F6F0E4;
+  --foreground: #2A1515;
+
+  --eishq-burgundy: #5D2829;
+  --eishq-gold: #DCC49D;
+  --eishq-cream: #F6F0E4;
+  --eishq-dark: #371818;
 }
 
 @theme inline {
@@ -12,18 +19,35 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background-color: var(--eishq-cream);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--eishq-cream);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
 }
+
+/* EISHQ Luxury Diamond Pattern */
+.hero {
+  background-color: var(--eishq-burgundy);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M36 6 66 36 36 66 6 36Z' fill='none' stroke='%23DCC49D' stroke-opacity='.22' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 72px 72px;
+}
+
+.hero-img {
+  background-color: var(--eishq-burgundy);
+  background-image: url("/eishq_background_1920x1080.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Offers marquee */
 @keyframes marquee {
   0% {
     transform: translateX(100%);
@@ -38,3 +62,14 @@ body {
   display: inline-block;
   animation: marquee 15s linear infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
