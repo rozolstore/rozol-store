@@ -501,7 +501,7 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
 
 <script>
 // عدّل المنتجات والأسعار هنا. الأسماء التالية أمثلة مؤقتة.
-const WA="201098941704",FREE=2000;
+const WA="201042362785",FREE=2000;
 const SHEET_URL=""; // رابط Google Apps Script (ينتهي بـ /exec) لتسجيل الطلبات في Google Sheets
 const ORDER_EVENT="Lead"; // غيّرها إلى "Purchase" لو عايز الإعلانات تتحسّن على الطلبات
 const cur="EGP",cid=i=>"eishq-"+i;
@@ -793,11 +793,7 @@ try {
   "الدفع: عند الاستلام"
  ].join("\n");
 
- window.open(
-  "https://wa.me/"+WA+"?text="+encodeURIComponent(m),
-  "_blank"
- );
-
+alert("تم استلام طلبك بنجاح من EISHQ ❤️");
  cart={};
  f.reset();
  draw();
