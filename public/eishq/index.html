@@ -455,8 +455,43 @@ window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(argu
      <input name="n" placeholder="الاسم بالكامل" required autocomplete="name">
      <input name="p" placeholder="رقم الموبايل" required inputmode="tel" pattern="01[0-9]{9}" title="رقم موبايل مصري من 11 رقم" autocomplete="tel">
      <select name="g" required><option value="">اختر المحافظة</option></select>
-     <textarea name="a" rows="2" placeholder="العنوان بالتفصيل" required></textarea>
-     <button class="btn" type="submit">أرسل الطلب على واتساب</button>
+     
+<textarea name="a" rows="2" placeholder="العنوان بالتفصيل" required></textarea>
+
+<div class="coupon-box">
+  <label for="couponCode">كود خصم EISHQ</label>
+
+  <div style="display:flex; gap:8px; margin-top:8px;">
+    <input
+      id="couponCode"
+      type="text"
+      placeholder="أدخل كود الخصم"
+      autocomplete="off"
+      maxlength="80"
+      style="flex:1; min-width:0;"
+    />
+
+    <button
+      id="applyCoupon"
+      class="btn"
+      type="button"
+      style="width:auto; white-space:nowrap;"
+    >
+      تطبيق
+    </button>
+  </div>
+
+  <p id="couponMsg" class="note" aria-live="polite"></p>
+
+  <div class="tot">
+    <span>قيمة الخصم</span>
+    <span id="couponDiscount">0 ج.م</span>
+  </div>
+</div>
+
+<button class="btn" type="submit">أرسل الطلب على واتساب</button>
+
+     
      <p class="note">الدفع عند الاستلام. سنؤكد الطلب معك قبل الشحن.</p>
     </form>
    </div>
@@ -526,6 +561,8 @@ const P=[
 const G=["القاهرة","الجيزة","الإسكندرية","القليوبية","الشرقية","الدقهلية","الغربية","المنوفية","البحيرة","كفر الشيخ","دمياط","بورسعيد","الإسماعيلية","السويس","الفيوم","بني سويف","المنيا","أسيوط","سوهاج","قنا","الأقصر","أسوان","البحر الأحمر","الوادي الجديد","مطروح","شمال سيناء","جنوب سيناء"];
 const $=s=>document.querySelector(s),fmt=n=>n.toLocaleString("ar-EG")+" ج.م";
 let cart={},filter="all";
+let appliedCoupon = null;
+let couponBusy = false;
 try{cart=JSON.parse(localStorage.getItem("eq_cart")||"{}")||{};Object.keys(cart).forEach(k=>{if(!P[k]||!(cart[k]>0))delete cart[k]})}catch(e){cart={}}
 $("#f").g.innerHTML+=G.map(x=>`<option>${x}</option>`).join("");
 const priceH=x=>x.p?`<b>${fmt(x.p)}</b>${x.o>x.p?`<s>${fmt(x.o)}</s>`:""}`:`<b style="font-size:1rem">السعر عند الطلب</b>`;
@@ -538,6 +575,61 @@ const cardH=(x,i)=>`
 function grid(){
  $("#grid").innerHTML=P.map((x,i)=>({x,i})).filter(({x})=>filter=="all"||x.c==filter).map(({x,i})=>cardH(x,i)).join("");
 }
+
+$("#applyCoupon").addEventListener("click", async () => {
+  if (couponBusy) return;
+
+  const input = $("#couponCode");
+  const message = $("#couponMsg");
+  const button = $("#applyCoupon");
+  const code = input.value.trim().toUpperCase();
+
+  if (!code) {
+    appliedCoupon = null;
+    $("#couponDiscount").textContent = fmt(0);
+    message.textContent = "من فضلك أدخل كود الخصم.";
+    return;
+  }
+
+  couponBusy = true;
+  button.disabled = true;
+  button.textContent = "جارٍ التحقق...";
+  message.textContent = "";
+
+  try {
+    const response = await fetch("/api/coupon", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.valid) {
+      appliedCoupon = null;
+      $("#couponDiscount").textContent = fmt(0);
+      message.textContent = result.message || "الكود غير صالح.";
+      return;
+    }
+
+    appliedCoupon = {
+      code,
+      discount: Number(result.discount)
+    };
+
+    $("#couponDiscount").textContent = fmt(appliedCoupon.discount);
+    message.textContent = "تم التحقق من الكود بنجاح.";
+  } catch {
+    appliedCoupon = null;
+    $("#couponDiscount").textContent = fmt(0);
+    message.textContent = "تعذر التحقق من الكود. حاول مرة أخرى.";
+  } finally {
+    couponBusy = false;
+    button.disabled = false;
+    button.textContent = "تطبيق";
+  }
+});
+
 
 function draw(){
  try{localStorage.setItem("eq_cart",JSON.stringify(cart))}catch(e){}
@@ -594,7 +686,7 @@ $("#openCart").onclick=()=>open(true);$("#closeCart").onclick=$("#shade").onclic
 document.addEventListener("keydown",e=>{if(e.key=="Escape")open(false)});
 let ic=0;$("#f").addEventListener("focusin",()=>{if(ic)return;ic=1;const ids=Object.keys(cart);ev("checkout",ids.map(i=>({i,q:cart[i]})),ids.reduce((a,i)=>a+cart[i]*P[i].p,0))});
 
-$("#f").onsubmit=e=>{
+$("#f").onsubmit=async e=>{
  e.preventDefault();
 
  const f=e.target;
@@ -610,11 +702,55 @@ $("#f").onsubmit=e=>{
  const shipping=sum>=FREE?0:
    (lowShipping.includes(f.g.value)?100:120);
 
- const total=sum+shipping;
+ const discount = appliedCoupon
+  ? Number(appliedCoupon.discount)
+  : 0;
+
+const finalDiscount = Math.min(discount, sum);
+
+const total = sum - finalDiscount + shipping;
+const orderItems = ids.map(i => ({
+  name: P[i].n,
+  quantity: cart[i],
+  price: P[i].p
+}));
 
  ev("order",ids.map(i=>({i,q:cart[i]})),total);
 
  const oid="EQ"+Date.now().toString(36).toUpperCase().slice(-6);
+ 
+try {
+  const orderResponse = await fetch("/api/order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: oid,
+      name: f.n.value.trim(),
+      phone: f.p.value.trim(),
+      gov: f.g.value,
+      address: f.a.value.trim(),
+      items: orderItems,
+      subtotal: sum,
+      discount: finalDiscount,
+      couponCode: appliedCoupon ? appliedCoupon.code : null,
+      shipping: shipping,
+      total: total
+    })
+  });
+
+  const orderResult = await orderResponse.json();
+
+  if (!orderResponse.ok || !orderResult.success) {
+    alert(orderResult.message || "تعذر تسجيل الطلب. حاول مرة أخرى.");
+    return;
+  }
+} catch (error) {
+  alert("تعذر الاتصال بالسيرفر. طلبك لم يُسجّل، حاول مرة أخرى.");
+  return;
+}
+
 
  if(SHEET_URL){
   try{
@@ -645,6 +781,8 @@ $("#f").onsubmit=e=>{
   ...ids.map(i=>"- "+P[i].n+" × "+cart[i]+" = "+fmt(P[i].p*cart[i])),
   "",
   "إجمالي المنتجات: "+fmt(sum),
+  "كود الخصم: "+(appliedCoupon ? appliedCoupon.code : "لا يوجد"),
+  "قيمة الخصم: "+fmt(finalDiscount),
   "الشحن: "+(shipping===0?"مجاني":fmt(shipping)),
   "الإجمالي النهائي: "+fmt(total),
   "",
