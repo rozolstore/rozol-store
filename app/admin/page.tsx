@@ -21,6 +21,7 @@ type Order = {
 
 const statuses = [
   "pending",
+  "printed",
   "waiting_confirmation",
   "no_answer",
   "confirmed",
@@ -32,6 +33,7 @@ const statuses = [
 
 const statusLabels: Record<string, string> = {
   pending: "طلب جديد",
+  printed: "تمت الطباعة",
   waiting_confirmation: "بانتظار التأكيد",
   no_answer: "العميل لا يرد",
   confirmed: "تم التأكيد",
@@ -82,6 +84,47 @@ export default function AdminPage() {
       setLoadingOrders(false);
     }
   }
+async function updateOrderStatus(orderId: string, newStatus: string) {
+  setError("");
+
+  try {
+    const response = await fetch("/api/admin/orders", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: orderId,
+        status: newStatus,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.status === 401) {
+      setLoggedIn(false);
+      setOrders([]);
+      setError("انتهت جلسة الإدارة. سجّل الدخول مرة أخرى.");
+      return;
+    }
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "تعذر تحديث حالة الطلب.");
+    }
+
+    setOrders((currentOrders) =>
+      currentOrders.map((order) =>
+        order.id === orderId
+          ? { ...order, status: newStatus }
+          : order
+      )
+    );
+  } catch (err) {
+    setError(
+      err instanceof Error ? err.message : "حدث خطأ أثناء تحديث الحالة."
+    );
+  }
+}
 
   useEffect(() => {
     let active = true;
@@ -190,365 +233,411 @@ export default function AdminPage() {
       });
   }
 
-  function printLabel(order: Order) {
-    const popup = window.open("", "_blank", "width=500,height=800");
+function printLabel(order: Order) {
+  const popup = window.open("", "_blank", "width=500,height=800");
 
-    if (!popup) {
-      setError("اسمح بفتح النوافذ المنبثقة لطباعة البوليصة.");
-      return;
+  if (!popup) {
+    setError("اسمح بفتح النوافذ المنبثقة لطباعة البوليصة.");
+    return;
+  }
+
+  const safe = (value: unknown) =>
+    String(value ?? "").replace(/[&<>"']/g, (char) => {
+      const entities: Record<string, string> = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      };
+      return entities[char];
+    });
+
+  function formatItems(value: unknown): string {
+    if (Array.isArray(value)) {
+      return value
+        .map((item) => {
+          if (item && typeof item === "object") {
+            const product = item as Record<string, unknown>;
+            const name = String(product.name ?? "منتج");
+            const quantity = Number(product.quantity ?? 1);
+            const price = Number(product.price ?? 0);
+            return `${name} × ${quantity} — ${price * quantity} جنيه`;
+          }
+          return String(item);
+        })
+        .join("\n");
     }
 
-    const safe = (value: unknown) =>
-      String(value ?? "").replace(/[&<>"']/g, (char) => {
-        const entities: Record<string, string> = {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        };
-        return entities[char];
-      });
-
-    function formatItems(value: unknown): string {
-      if (Array.isArray(value)) {
-        return value
-          .map((item) => {
-            if (item && typeof item === "object") {
-              const product = item as Record<string, unknown>;
-              const name = String(product.name ?? "منتج");
-              const quantity = Number(product.quantity ?? 1);
-              const price = Number(product.price ?? 0);
-              return `${name} × ${quantity} — ${price * quantity} جنيه`;
-            }
-            return String(item);
-          })
-          .join("\n");
+    if (typeof value === "string") {
+      try {
+        const parsed: unknown = JSON.parse(value);
+        if (Array.isArray(parsed)) return formatItems(parsed);
+      } catch {
+        // الاحتفاظ بالنص كما هو.
       }
+      return value;
+    }
 
-      if (typeof value === "string") {
-        try {
-          const parsed: unknown = JSON.parse(value);
-          if (Array.isArray(parsed)) return formatItems(parsed);
-        } catch {
-          // Keep ordinary text as entered.
+    return JSON.stringify(value ?? [], null, 2);
+  }
+
+  const itemText = formatItems(order.items);
+  const orderDate = new Date(order.created_at).toLocaleDateString("ar-EG");
+
+  popup.document.write(`
+    <!doctype html>
+    <html lang="ar" dir="rtl">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>بوليصة ${safe(order.id)}</title>
+
+      <style>
+        @page {
+          size: 100mm 130mm;
+          margin: 0;
         }
-        return value;
-      }
 
-      return JSON.stringify(value ?? [], null, 2);
-    }
+        * {
+          box-sizing: border-box;
+        }
 
-    const itemText = formatItems(order.items);
-    const orderDate = new Date(order.created_at).toLocaleString("ar-EG");
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          width: 100mm;
+          background: #fff;
+          color: #222;
+          font-family: Arial, Tahoma, sans-serif;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
 
-    popup.document.write(`
-      <!doctype html>
-      <html lang="ar" dir="rtl">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>بوليصة ${safe(order.id)}</title>
-        <style>
+        body {
+          font-size: 12px;
+          line-height: 1.35;
+        }
+
+        .label {
+          width: 100mm;
+          height: 130mm;
+          padding: 3mm;
+          overflow: hidden;
+        }
+
+        .header {
+          text-align: center;
+          border: 2px solid #5D2829;
+          padding: 2mm;
+          margin-bottom: 2mm;
+        }
+
+        .brand {
+          margin: 0;
+          color: #5D2829;
+          font-size: 24px;
+          font-weight: 900;
+          line-height: 1.2;
+        }
+
+        .brand-ar {
+          font-size: 16px;
+        }
+
+        .subtitle {
+          margin: 1mm 0;
+          font-size: 12px;
+          font-weight: bold;
+        }
+
+        .order-id {
+          margin-top: 1.5mm;
+          padding: 1mm;
+          background: #F6F0E4;
+          border: 1px dashed #5D2829;
+        }
+
+        .order-id span {
+          display: block;
+          font-size: 10px;
+          font-weight: bold;
+        }
+
+        .order-id strong {
+          display: block;
+          direction: ltr;
+          font-size: 14px;
+          overflow-wrap: anywhere;
+        }
+
+        .date {
+          margin: 1.5mm 0;
+          font-size: 11px;
+        }
+
+        .section {
+          border: 1px solid #999;
+          margin: 1.5mm 0;
+          padding: 2mm;
+        }
+
+        h2 {
+          font-size: 14px;
+          margin: 0 0 1mm;
+          padding-bottom: 1mm;
+          color: #5D2829;
+          border-bottom: 1px solid #DCC49D;
+        }
+
+        .field {
+          margin: 1.2mm 0;
+          font-size: 13px;
+          line-height: 1.4;
+          overflow-wrap: anywhere;
+        }
+
+        .field span {
+          font-weight: 800;
+        }
+
+        .phone {
+          direction: ltr;
+          unicode-bidi: embed;
+          font-size: 14px;
+          font-weight: 800;
+        }
+
+        .address {
+          line-height: 1.5;
+        }
+
+        .items {
+          margin: 0;
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
+          font-size: 12px;
+          line-height: 1.4;
+          font-family: inherit;
+        }
+
+        .payment {
+          border: 2px solid #5D2829;
+          background: #F6F0E4;
+          padding: 2mm;
+          margin-top: 2mm;
+          text-align: center;
+        }
+
+        .payment span {
+          display: block;
+          font-size: 11px;
+          font-weight: bold;
+        }
+
+        .payment strong {
+          display: block;
+          color: #5D2829;
+          font-size: 19px;
+          font-weight: 900;
+        }
+
+        .total {
+          border: 3px solid #5D2829;
+          background: #F6F0E4;
+          padding: 2mm;
+          margin-top: 2mm;
+          text-align: center;
+        }
+
+        .total span {
+          display: block;
+          font-size: 12px;
+          font-weight: bold;
+        }
+
+        .total strong {
+          display: block;
+          color: #5D2829;
+          font-size: 25px;
+          font-weight: 900;
+          line-height: 1.25;
+        }
+
+        .barcode {
+          margin-top: 2mm;
+          padding: 1mm;
+          border: 1px dashed #888;
+          text-align: center;
+        }
+
+        .barcode-title {
+          font-size: 9px;
+          font-weight: bold;
+        }
+
+        .barcode-lines {
+          height: 7mm;
+          margin: 1mm auto;
+          width: 70mm;
+          background: repeating-linear-gradient(
+            90deg,
+            #111 0,
+            #111 0.5mm,
+            transparent 0.5mm,
+            transparent 1mm,
+            #111 1mm,
+            #111 1.8mm,
+            transparent 1.8mm,
+            transparent 2.4mm
+          );
+        }
+
+        .barcode-id {
+          direction: ltr;
+          font-size: 9px;
+          overflow-wrap: anywhere;
+        }
+
+        .barcode-note {
+          color: #555;
+          font-size: 8px;
+        }
+
+        .footer {
+          margin-top: 1.5mm;
+          text-align: center;
+          color: #5D2829;
+          font-size: 9px;
+          font-weight: bold;
+        }
+
+        .actions {
+          text-align: center;
+          margin: 12px;
+        }
+
+        .actions button {
+          border: 0;
+          border-radius: 5px;
+          padding: 10px 18px;
+          background: #5D2829;
+          color: white;
+          cursor: pointer;
+          font-size: 14px;
+        }
+
+        @media screen {
+          body {
+            margin: 12px auto;
+            box-shadow: 0 0 10px #ccc;
+          }
+        }
+
+        @media print {
           @page {
             size: 100mm 130mm;
             margin: 0;
           }
 
-          * {
-            box-sizing: border-box;
-          }
-
-          html, body {
+          html,
+          body {
+            width: 100mm;
+            height: 130mm;
             margin: 0;
             padding: 0;
-            width: 100mm;
-            min-height: 130mm;
-            background: #fff;
-            color: #222;
-            font-family: Arial, Tahoma, sans-serif;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-          }
-
-          body {
-            padding: 5mm;
-            font-size: 11px;
-            line-height: 1.45;
+            overflow: hidden;
+            box-shadow: none;
           }
 
           .label {
-            width: 90mm;
-            min-height: 120mm;
-            margin: 0 auto;
-          }
-
-          .header {
-            text-align: center;
-            border: 1.5px solid #5D2829;
-            padding: 3mm;
-            margin-bottom: 3mm;
-          }
-
-          .brand {
+            width: 100mm;
+            height: 130mm;
             margin: 0;
-            color: #5D2829;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 1px;
-          }
-
-          .brand-ar {
-            font-size: 13px;
-            margin-right: 3px;
-          }
-
-          .subtitle {
-            margin: 1mm 0 0;
-            font-size: 11px;
-            font-weight: bold;
-          }
-
-          .order-id {
-            margin-top: 2.5mm;
-            padding: 2mm;
-            background: #f6f0e4;
-            border: 1px dashed #5D2829;
-          }
-
-          .order-id span {
-            display: block;
-            font-size: 10px;
-          }
-
-          .order-id strong {
-            display: block;
-            direction: ltr;
-            font-size: 17px;
-            letter-spacing: 1px;
-            overflow-wrap: anywhere;
-          }
-
-          .date {
-            margin: 2mm 0;
-            font-size: 10px;
-          }
-
-          .section {
-            border: 1px solid #bbb;
-            margin: 2.5mm 0;
-            padding: 2.5mm;
-            break-inside: avoid;
-          }
-
-          h2 {
-            font-size: 12px;
-            margin: 0 0 2mm;
-            padding-bottom: 1mm;
-            color: #5D2829;
-            border-bottom: 1px solid #DCC49D;
-          }
-
-          .field {
-            margin: 1.5mm 0;
-            overflow-wrap: anywhere;
-          }
-
-          .field span {
-            font-weight: bold;
-          }
-
-          .phone, .latin {
-            direction: ltr;
-            unicode-bidi: embed;
-          }
-
-          .address {
-            line-height: 1.6;
-          }
-
-          .items {
-            white-space: pre-wrap;
-            overflow-wrap: anywhere;
-            font-size: 10.5px;
-            margin: 0;
-            font-family: inherit;
-          }
-
-          .payment {
-            border: 1px solid #DCC49D;
-            padding: 2.5mm;
-            display: flex;
-            justify-content: space-between;
-            gap: 2mm;
-            align-items: center;
-            margin-top: 2.5mm;
-          }
-
-          .total {
-            border: 2px solid #5D2829;
-            background: #f6f0e4;
             padding: 3mm;
-            margin-top: 2.5mm;
-            text-align: center;
-          }
-
-          .total span {
-            display: block;
-            font-size: 11px;
-          }
-
-          .total strong {
-            display: block;
-            color: #5D2829;
-            font-size: 19px;
-          }
-
-          .barcode {
-            margin-top: 3mm;
-            padding: 2mm;
-            border: 1px dashed #888;
-            text-align: center;
-          }
-
-          .barcode-title {
-            font-size: 10px;
-            font-weight: bold;
-          }
-
-          .barcode-lines {
-            height: 13mm;
-            margin: 2mm auto 1mm;
-            width: 70mm;
-            background:
-              repeating-linear-gradient(
-                90deg,
-                #111 0,
-                #111 0.5mm,
-                transparent 0.5mm,
-                transparent 1mm,
-                #111 1mm,
-                #111 1.8mm,
-                transparent 1.8mm,
-                transparent 2.4mm
-              );
-          }
-
-          .barcode-id {
-            direction: ltr;
-            font-size: 10px;
-            letter-spacing: 1px;
-            overflow-wrap: anywhere;
-          }
-
-          .barcode-note {
-            color: #555;
-            font-size: 9px;
-          }
-
-          .footer {
-            margin-top: 2.5mm;
-            text-align: center;
-            color: #5D2829;
-            font-size: 9px;
+            overflow: hidden;
           }
 
           .actions {
-            text-align: center;
-            margin: 12px;
+            display: none !important;
           }
+        }
+      </style>
+    </head>
 
-          .actions button {
-            border: 0;
-            border-radius: 5px;
-            padding: 10px 18px;
-            background: #5D2829;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-          }
+    <body>
+      <main class="label">
+        <header class="header">
+          <h1 class="brand">EISHQ <span class="brand-ar">عشق</span></h1>
+          <p class="subtitle">بوليصة تجهيز وشحن داخلية</p>
 
-          @media screen {
-            body {
-              margin: 12px auto;
-              box-shadow: 0 0 10px #ccc;
-            }
-          }
-
-          @media print {
-  html, body {
-    width: 100mm;
-    min-height: 130mm;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-  }
-
-  .actions {
-    display: none !important;
-  }
-}
-        </style>
-      </head>
-      <body>
-        <main class="label">
-          <header class="header">
-            <h1 class="brand">EISHQ <span class="brand-ar">عشق</span></h1>
-            <p class="subtitle">بوليصة تجهيز وشحن داخلية</p>
-            <div class="order-id">
-              <span>رقم الطلب</span>
-              <strong>${safe(order.id)}</strong>
-            </div>
-          </header>
-
-          <div class="date">
-            <strong>تاريخ الطلب:</strong> ${safe(orderDate)}
+          <div class="order-id">
+            <span>رقم الطلب</span>
+            <strong>${safe(order.id)}</strong>
           </div>
+        </header>
 
-          <section class="section">
-            <h2>بيانات المستلم</h2>
-            <div class="field"><span>الاسم:</span> ${safe(order.customer_name)}</div>
-            <div class="field"><span>الهاتف:</span> <b class="phone">${safe(order.phone)}</b></div>
-            <div class="field"><span>المحافظة:</span> ${safe(order.governorate)}</div>
-            <div class="field address"><span>العنوان:</span> ${safe(order.address)}</div>
-          </section>
-
-          <section class="section">
-            <h2>محتويات الشحنة</h2>
-            <pre class="items">${safe(itemText)}</pre>
-          </section>
-
-          <section class="payment">
-            <span>طريقة الدفع</span>
-            <strong>الدفع عند الاستلام</strong>
-          </section>
-
-          <section class="total">
-            <span>إجمالي التحصيل عند الاستلام</span>
-            <strong>${safe(order.total)} جنيه</strong>
-          </section>
-
-          <section class="barcode">
-  <div class="barcode-title">منطقة الباركود الداخلي</div>
-  <div class="barcode-lines" aria-hidden="true"></div>
-  <div class="barcode-id">${safe(order.id)}</div>
-  <div class="barcode-note">الخطوط شكل توضيحي وليست باركودًا قابلًا للمسح</div>
-</section>
-
-          <footer class="footer">
-            EISHQ — Elegance in every drop
-          </footer>
-        </main>
-
-        <div class="actions">
-          <button onclick="window.print()">طباعة البوليصة</button>
+        <div class="date">
+          <strong>تاريخ الطلب:</strong> ${safe(orderDate)}
         </div>
-      </body>
-      </html>
-    `);
 
-    popup.document.close();
-  }
+        <section class="section">
+          <h2>بيانات المستلم</h2>
+          <div class="field">
+            <span>الاسم:</span> ${safe(order.customer_name)}
+          </div>
+          <div class="field">
+            <span>الهاتف:</span>
+            <b class="phone">${safe(order.phone)}</b>
+          </div>
+          <div class="field">
+            <span>المحافظة:</span> ${safe(order.governorate)}
+          </div>
+          <div class="field address">
+            <span>العنوان:</span> ${safe(order.address)}
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>محتويات الشحنة</h2>
+          <pre class="items">${safe(itemText)}</pre>
+        </section>
+
+        <section class="payment">
+          <span>طريقة الدفع</span>
+          <strong>الدفع عند الاستلام</strong>
+        </section>
+
+        <section class="total">
+          <span>إجمالي التحصيل عند الاستلام</span>
+          <strong>${safe(order.total)} جنيه</strong>
+        </section>
+
+        <section class="barcode">
+          <div class="barcode-title">رقم الطلب الداخلي</div>
+          <div class="barcode-lines" aria-hidden="true"></div>
+          <div class="barcode-id">${safe(order.id)}</div>
+          <div class="barcode-note">
+            الخطوط شكل توضيحي وليست باركودًا قابلًا للمسح
+          </div>
+        </section>
+
+        <footer class="footer">
+          EISHQ — Elegance in every drop
+        </footer>
+      </main>
+
+      <div class="actions">
+        <button onclick="window.print()">طباعة البوليصة</button>
+      </div>
+    </body>
+    </html>
+  `);
+
+  popup.document.close();
+}
+
 
   if (checkingSession) {
     return (
@@ -689,8 +778,29 @@ export default function AdminPage() {
                   </td>
                   <td style={cellStyle}>{order.total} جنيه</td>
                   <td style={cellStyle}>
-                    {statusLabels[order.status] || order.status}
-                  </td>
+  <select
+    value={order.status}
+    onChange={(e) =>
+      updateOrderStatus(order.id, e.target.value)
+    }
+    style={{
+      padding: "8px",
+      borderRadius: "6px",
+      border: "1px solid #DCC49D",
+      background: "#F6F0E4",
+      color: "#5D2829",
+      fontWeight: 700,
+      minWidth: "145px",
+      cursor: "pointer",
+    }}
+  >
+    {statuses.map((status) => (
+      <option key={status} value={status}>
+        {statusLabels[status] || status}
+      </option>
+    ))}
+  </select>
+</td>
                   <td style={cellStyle}>
                     {new Date(order.created_at).toLocaleString("ar-EG")}
                   </td>
